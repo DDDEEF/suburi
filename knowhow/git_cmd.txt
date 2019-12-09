@@ -1,3 +1,5 @@
+gitでよく使うコマンド一覧
+
 ・ローカルにリモートリポジトリ(master)をクローンする
 $ git clone git@github.com:suzuki05/suburi.git
 
