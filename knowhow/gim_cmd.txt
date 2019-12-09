@@ -1,0 +1,38 @@
+・ローカルにリモートリポジトリ(master)をクローンする
+$ git clone git@github.com:suzuki05/suburi.git
+
+・リモートリポジトリ(master)をoriginに登録(エイリアス)
+$ git remote add origin git@github.com:suzuki05/suburi.git
+
+・ローカル環境のファイルをgitで管理するときの初期設定
+$ git init
+
+・リモートリポジトリ(master)からローカルのmasterに変更をpullし、margeする
+$ git checkout master
+$ git pull origin master
+$ git checkout newbranch
+$ git merge master
+
+・ローカルで管理しているブランチの表示
+$ git branch
+
+・ブランチ作成
+$ git branch newbranch
+
+・ブランチ移動
+$ git checkout newbranch
+
+・ブランチ削除
+$ git branch -d oldbranch
+
+・変更のあったファイルを確認
+$ git status
+
+・変更をadd
+$ git add .
+
+・addしたファイルをcommit
+$ git commit -m "message"
+
+・ブランチの変更をリモートリポジトリ(master)に反映させる PR
+$ git push origin(git@github.com:suzuki05/suburi.git) newbranch
