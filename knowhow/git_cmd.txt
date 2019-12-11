@@ -37,4 +37,4 @@ $ git add .
 $ git commit -m "message"
 
 ・ブランチの変更をリモートリポジトリ(master)に反映させる PR
-$ git push origin(git@github.com:suzuki05/suburi.git) newbranch
+$ git push git@github.com:suzuki05/suburi.git newbranch
