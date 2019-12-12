@@ -11,6 +11,9 @@
 #define RLS_VER   ((u_long)1)           //バージョン番号
 #define RLS_PROC  ((u_long)1)           //関数番号
 
+int registerrpc(u_long, u_long, u_long, char *(*)(), xdrproc_t, xdrproc_t);
+char **do_rls(char **);
+
 char **do_rls(char **buf){
   DIR *dirp;
   struct dirent *dp;
@@ -51,9 +54,6 @@ char **do_rls(char **buf){
 }
 
 int main(){
-  int registerrpc(u_long, u_long, u_long, char *(*)(), xdrproc_t, xdrproc_t);
-  char **do_rls(char **);
-
   if(registerrpc(RLS_PROG, RLS_VER, RLS_PROC, (char *(*)())do_rls, (xdrproc_t)xdr_wrapstring, (xdrproc_t)xdr_wrapstring) == -1){
     perror("registerrpc");
     return(-1);

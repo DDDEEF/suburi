@@ -8,8 +8,11 @@
 #define RLS_VER   ((u_long)1)
 #define RLS_PROC  ((u_long)1)
 
+int callrpc(char *, unsigned long, unsigned long, unsigned long, xdrproc_t, char *, xdrproc_t, char *);
+int call_rls(char *, char *, char **);
+bool_t xdr_rls(XDR *, char *);
+
 int main(int argc, char *argv[]){
-  int call_rls(char *, char *, char **);
   char buf[BUF_SIZE];
   char *ans = NULL;
 
@@ -36,8 +39,6 @@ bool_t xdr_rls(XDR *xdrs, char *objp){
 }
 
 int call_rls(char *host, char *buf, char **ans){
-  int callrpc(char *, unsigned long, unsigned long, unsigned long, xdrproc_t, char *, xdrproc_t, char *);
-  bool_t xdr_rls();
   enum clnt_stat clnt_stat;
 
   clnt_stat = callrpc(host, RLS_PROG, RLS_VER, RLS_PROC, (xdrproc_t)xdr_rls, (char *)buf, (xdrproc_t)xdr_rls, (char *)ans);
