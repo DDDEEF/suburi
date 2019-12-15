@@ -24,6 +24,9 @@ $ git merge origin/master (ローカルリポジトリ内のリモート追跡�
 https://qiita.com/uasi/items/69368c17c79e99aaddbf
 https://qiita.com/bitarx/items/4558f86e43a2c3493fa9
 
+・commit履歴を見る
+$ git log newbranch --oneline
+
 ・ローカルで管理しているブランチの表示
 $ git branch
 
