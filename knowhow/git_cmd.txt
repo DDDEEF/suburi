@@ -3,7 +3,7 @@ gitでよく使うコマンド一覧
 ・ローカルにリモートリポジトリ(master)をクローンする
 $ git clone git@github.com:suzuki05/suburi.git
 
-・リモートリポジトリ(master)をoriginに登録(エイリアス)
+・リモートリポジトリ(master:git@github.com:suzuki05/suburi.git)をoriginに登録(エイリアス)
 $ git remote add origin git@github.com:suzuki05/suburi.git
 
 ・ローカル環境のファイルをgitで管理するときの初期設定
@@ -11,9 +11,12 @@ $ git init
 
 ・リモートリポジトリ(master)からローカルのmasterに変更をpullし、margeする
 $ git checkout master
-$ git pull origin master
+$ git pull git@github.com:suzuki05/suburi.git master
 $ git checkout newbranch
-$ git merge master
+
+・pullの内訳
+$ git fetch origin/master 
+$ git merge origin/master 
 
 ・ローカルで管理しているブランチの表示
 $ git branch
