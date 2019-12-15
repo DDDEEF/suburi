@@ -3,20 +3,26 @@ gitでよく使うコマンド一覧
 ・ローカルにリモートリポジトリ(master)をクローンする
 $ git clone git@github.com:suzuki05/suburi.git
 
-・リモートリポジトリ(master:git@github.com:suzuki05/suburi.git)をoriginに登録(エイリアス)
+・リモートリポジトリをoriginに登録、以降originと打つだけで良い(originとはリモートリポジトリ(master)である)
 $ git remote add origin git@github.com:suzuki05/suburi.git
+
+・リモートリポジトリのURLを確認
+$ git remote -v
 
 ・ローカル環境のファイルをgitで管理するときの初期設定
 $ git init
 
 ・リモートリポジトリ(master)からローカルのmasterに変更をpullし、margeする
 $ git checkout master
-$ git pull git@github.com:suzuki05/suburi.git master
+$ git pull origin master
 $ git checkout newbranch
 
-・pullの内訳
-$ git fetch origin/master 
-$ git merge origin/master 
+・pullの内訳(fetchではリモート追跡ブランチ(origin/master)のことをわかっている必要がある。)
+$ git fetch origin master (リモートリポジトリoriginのmasterブランチをリモート追跡ブランチ(origin/master)に落とす)
+$ git merge origin/master (ローカルリポジトリ内のリモート追跡ブランチmasterよりローカルのmasterブランチにマージする。) 
+【参考】 
+https://qiita.com/uasi/items/69368c17c79e99aaddbf
+https://qiita.com/bitarx/items/4558f86e43a2c3493fa9
 
 ・ローカルで管理しているブランチの表示
 $ git branch
@@ -40,4 +46,4 @@ $ git add .
 $ git commit -m "message"
 
 ・ブランチの変更をリモートリポジトリ(master)に反映させる PR
-$ git push git@github.com:suzuki05/suburi.git newbranch
+$ git push origin newbranch
