@@ -12,6 +12,9 @@ $ git remote -v
 ・ローカル環境のファイルをgitで管理するときの初期設定
 $ git init
 
+・ブランチごとの履歴を見る
+$ git log 201912151130 --oneline
+
 ・リモートリポジトリ(master)からローカルのmasterに変更をpullし、margeする
 $ git checkout master
 $ git pull origin master
