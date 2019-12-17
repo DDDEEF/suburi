@@ -56,6 +56,7 @@ int popen2(char *command, int *fd_r, int *fd_w){
       exit(1);
     }
   }
+  /* 親プロセス側 */
   close(pipe_p2c[R]);
   close(pipe_c2p[W]);
   *fd_w = pipe_p2c[W];
