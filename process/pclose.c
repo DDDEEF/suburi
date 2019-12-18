@@ -26,7 +26,7 @@ FILE *popen_err(char *command, char *option){
     return(NULL);
   }
 
-  if((cur = (struct pid *)malloc(sizeof(struct pid)) == NULL)){
+  if((cur = (struct pid *)malloc(sizeof(struct pid))) == NULL){
     fprintf(stderr, "popen_err():malloc error:return(NULL)\n");
     return(NULL);
   }
@@ -114,7 +114,7 @@ int main(){
   }
   while(1){
     fgets(buf, sizeof(buf), fp);
-    if(feop(fp)){
+    if(feof(fp)){
       break;
     }
     printf("---> %s", buf);
