@@ -1,0 +1,10 @@
+Linuxで時々使うコマンド一覧
+
+・隠しファイルを一覧で表示
+$ ls -a
+
+・ファイルの文字コード変換
+$ nkf --version     //version確認
+$ brew install nkf  //インストール
+$ nkf -g hoge.html  //ファイルの文字コードを確認
+$ nkf -w --overwrite hoge.html  //ファイルをUTF-8に変換
