@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
     return(-1);
   }
 
+  /* readdir()を使用する方法 */
   printf("[readdir version]\n");
   for(dp = readdir(dir); dp != NULL; dp = readdir(dir)){
     printf("%s\n", dp->d_name);
@@ -32,8 +33,8 @@ int main(int argc, char *argv[]){
   }
   rewinddir(dir);
 
+  /* readdir_r()を使用する方法 */
   printf("[readdir_r version]\n");
-
   while(1){
     ret = readdir_r(dir, &Entry, &Result);
     if(ret != 0){
