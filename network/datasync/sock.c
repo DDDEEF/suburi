@@ -129,7 +129,7 @@ int SetRecvTimeoutSet(int sec){
   return(0);
 }
 
-/* タイムアウトつきrecv(poll) */
+/* タイムアウト付き受信(poll) */
 int RecvTimeoutPoll(int soc, char *buf, int bufsize, int flag){
   struct pollfd targets[1];
   int nready;
@@ -176,8 +176,156 @@ int RecvTimeoutPoll(int soc, char *buf, int bufsize, int flag){
   return(ret);
 }
 
-/* 固定バッファ1行受信 */
+/* ソケットから1行受信：固定バッファ */
+int RecvOneLine_1(int soc, char *buf, int bufsize, int flag){
+  int len;
+  int pos;
+  int end;
+  int ret;
+  char c;
 
-/* 動的バッファ1行受信 */
+  /* 初期化 */
+  buf[0] = '\0';
 
-/* 指定サイズ送信 */
+  pos = 0;
+  do{
+    end = 0;
+    /* 1バイト受信 */
+    c = '\0';
+    len = RecvTimeoutPoll(soc, &c, 1, flag);
+    if(len == -1){
+      /* エラー:エラー終了 */
+      SyslogPerror(LOG_ERR, "recv");
+      Syslog(LOG_ERR, "sock.c:RecvOneLine_1():RecvTimeoutPoll():%d\n", len);
+      ret = -1;
+      end = 1;
+    }else if(len == 0){
+      /* 切断 */
+      Syslog(LOG_DEBUG, "sock.c:RecvOneLine_1():recv():EOF\n");
+      if(pos > 0){
+        /* すでに受信データを有り:正常終了 */
+        ret = pos;
+        end = 1;
+      }else{
+        /* 受信データ無し:切断終了 */
+        ret = 0;
+        end = 1;
+      }
+    }else{
+      /* 正常受信 */
+      buf[pos] = c;
+      pos++;
+      if(buf[pos-1] == '\n'){
+        /* 改行:終了 */
+        ret = pos;
+        end = 1;
+      }
+      if(pos == bufsize - 1){
+        /* 指定サイズ:終了 */
+        ret = pos;
+        end = 1;
+      }
+    }
+  }while(end != 1);
+
+  buf[pos] = '\0';
+  return(ret);
+}
+
+/* ソケットから1行受信:動的バッファ */
+int RecvOneLine_2(int soc, char **ret_buf, int flag){
+  #define RECV_ONE_LINE_2_ALLOC_SIZE 1024
+  #define RECV_ONE_LINE_2_ALLOC_LIMIT 1024*1024+1
+  char buf[RECV_ONE_LINE_2_ALLOC_SIZE+1];
+  int size = 0;
+  int now_len = 0;
+  int end;
+  int len;
+  int ret;
+  char *data = NULL;
+
+  *ret_buf = NULL;
+
+  do{
+    end = 0;
+    /* 1行受信 */
+    len = RecvOneLine_1(soc, buf, sizeof(buf), flag);
+    if(len < 0){
+      /* エラー */
+      Syslog(LOG_ERR, "sock.c:RecvOneLine_2():RecvOneLine1():%d\n", len);
+      free(data);
+      data = NULL;
+      ret = -1;
+      end = 1;
+    }else if(len == 0){
+      /* 切断 */
+      if(now_len > 0){
+        /* 受信データ有り */
+        ret = now_len;
+        end = 1;
+      }else{
+        /* 受信データ無し */
+        ret = 0;
+        end = 1;
+      }
+    }else{
+      /* 正常受信 */
+      if(now_len + len >= size){
+        /* 領域不足 */
+        if(size == 0){
+          size = RECV_ONE_LINE_2_ALLOC_SIZE + 1;
+        }else{
+          size += RECV_ONE_LINE_2_ALLOC_SIZE;
+        }
+        if(size > RECV_ONE_LINE_2_ALLOC_LIMIT){
+          free(data);
+          data = NULL;
+        }else if(data == NULL){
+          data = malloc(size);
+        }else{
+          data = realloc(data, size);
+        }
+      }
+      if(data == NULL){
+        /* メモリ確保エラー */
+        SyslogPerror(LOG_ERR, "sock.c:RecvOneLine_2():malloc or limit-over");
+        ret = -1;
+        end = 1;
+      }else{
+        /* データ格納 */
+        memcpy(&data[now_len], buf, len);
+        now_len += len;
+        data[now_len] = '\0';
+        if(data[now_len - 1] == '\n'){
+          /* 末尾が改行 */
+          ret = now_len;
+          end = 1;
+        }
+      }
+    }
+  }while(end != 1);
+
+  *ret_buf = data;
+  return(ret);
+}
+
+/* 指定サイズソケットに送信 */
+int SendSize(int soc, char *buf, int size){
+  int lest;
+  int len;
+  char *ptr;
+  lest = size;
+  ptr = buf;
+  do{
+    len = send(soc, ptr, lest, 0);
+    if(len < = 0){
+      SyslogPerror(LOG_ERR, "send");
+      Syslog(LOG_ERR, "sock.c:SendSize():send(%d):%d", lest, len);
+      return(-1);
+    }
+    lest -= len;
+    ptr += len;
+  }while(lest>0);
+
+  return(size);
+}
