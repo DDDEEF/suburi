@@ -56,7 +56,7 @@ int sjtouj(char *to, int tosize, char *from){
       return(-1);
     }
   }
-  iconv_close(fd);
+  iconv_close(cd);
   *dp = '\0';
 
   return(0);

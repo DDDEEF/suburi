@@ -35,7 +35,7 @@ static int FileLevel = LOG_DEBUG;
 static int StderrOut = 0;
 
 /* ローテーション閾値 */
-#define LIMIZ_SIZE 1*1024*1024
+#define LIMIT_SIZE 1*1024*1024
 
 /* ログファイルディスクリプタ */
 static int LogFd = -1;
@@ -137,7 +137,7 @@ static int lcheck_size(){
     return(0);
   }
 
-  if(Logfd != -1){
+  if(LogFd != -1){
     count++;
     if(count % 500 != 0){
       return(1);
@@ -145,7 +145,7 @@ static int lcheck_size(){
   }
 
   if(stat(LogFilename, &st) != 0){
-    if((Logfd = open(LogFilename, O_WRONLY|O_CREAT, 0666)) == -1){
+    if((LogFd = open(LogFilename, O_WRONLY|O_CREAT, 0666)) == -1){
       perror("open:LOGFILE");
       LogFd = 2;
       return(-1);
@@ -161,7 +161,7 @@ static int lcheck_size(){
       sprintf(buf, "%s.bak", LogFilename);
       rename(LogFilename, buf);
 
-      if((Logfd = open(LogFilename, O_WRONLY|O_CREAT, 0666)) == -1){
+      if((LogFd = open(LogFilename, O_WRONLY|O_CREAT, 0666)) == -1){
         perror("open");
         LogFd = 2;
         return(-1);
