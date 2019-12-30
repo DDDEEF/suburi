@@ -39,8 +39,8 @@ $ git branch newbranch
 ・ブランチ移動
 $ git checkout newbranch
 
-・ブランチ削除
-$ git branch -d oldbranch
+・ローカルにあるブランチを削除
+$ git branch -D oldbranch
 
 ・変更のあったファイルを確認
 $ git status
