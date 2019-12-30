@@ -48,7 +48,7 @@ int ServerSocketNew(char *portnm, int s[], int maxsock){
     }
 #ifdef IPV6_V6ONLY
     if(res->ai_family == AF_INET6){
-      setsockopt(s[smax], IPPROT_IPV6, IPV6_V6ONLY, &on, sizeof(on));
+      setsockopt(s[smax], IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on));
     }
 #endif
     if(bind(s[smax], res->ai_addr, res->ai_addrlen) < 0){
@@ -318,7 +318,7 @@ int SendSize(int soc, char *buf, int size){
   ptr = buf;
   do{
     len = send(soc, ptr, lest, 0);
-    if(len < = 0){
+    if(len <= 0){
       SyslogPerror(LOG_ERR, "send");
       Syslog(LOG_ERR, "sock.c:SendSize():send(%d):%d", lest, len);
       return(-1);

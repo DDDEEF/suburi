@@ -95,7 +95,7 @@ static int AddToken(TOKEN *token, char *buf, int len){
   token->token[token->no] = malloc(len + 1);
   if(token->token[token->no] == NULL){
     SyslogPerror(LOG_ERR, "malloc");
-    Syslog(LOG_ERR, "token.c:AddToken():token->token[%d]:malloc(%d):NULL\n", token->no; len + 1);
+    Syslog(LOG_ERR, "token.c:AddToken():token->token[%d]:malloc(%d):NULL\n", token->no, len + 1);
     return(-1);
   }
   if(pack_flag == 0){
@@ -105,7 +105,7 @@ static int AddToken(TOKEN *token, char *buf, int len){
     memcpy(token->token[token->no], buf + 1, len - 2);
     token->token[token->no][len - 2] = '\0';
   }
-  taken->no++;
+  token->no++;
 
   return(0);
 }
