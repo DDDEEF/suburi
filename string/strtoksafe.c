@@ -6,7 +6,7 @@
 #define issjiskanji(c) ((0x81 <= (unsigned char)(c&0xff) && (unsigned char)(c&0xff) <= 0x9f) || (0xe0 <= (unsigned char)(c&0xff) && (unsigned char)(c&0xff) <= 0xfc))
 
 /* SJIS半角カタカナ1バイト目判定 */
-#define issjiskanji(c) ((0xa1 <= (unsigned char)(c&0xff) && (unsigned char)(unsigned char)(c&0xff) <= 0xdf))
+#define issjiskana(c) ((0xa1 <= (unsigned char)(c&0xff) && (unsigned char)(unsigned char)(c&0xff) <= 0xdf))
 
 /* EUC漢字コード1バイト目判定 */
 #define iseuckanji(c) ((0xa1 <= (unsigned char)(c&0xff) && (unsigned char)(c&0xff) <= 0xdf))
@@ -75,7 +75,7 @@ int FreeStrTok(ST_STR *st_str){
 }
 
 /* strtok()の漢字・重複呼び出し対応版 */
-char *StrTok(char *str, char *sep, ST_STR *st_*str){
+char *StrTok(char *str, char *sep, ST_STR *st_str){
   char *p;
   char *p2;
 
