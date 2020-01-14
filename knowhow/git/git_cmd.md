@@ -1,6 +1,7 @@
 | gitでよく使うコマンド一覧 |
 |:--------------------------|
-| ローカルにリモートリポジトリ(master)をクローンする <br> $ git clone git@github.com:suzuki05/suburi.git |
+| ローカルにリモートリポジトリ(master)をクローンする 
+$ git clone git@github.com:suzuki05/suburi.git |
 | リモートリポジトリをoriginに登録、以降originと打つだけで良い(originとはリモートリポジトリ(master)である)<br> $ git remote add origin git@github.com:suzuki05/suburi.git |
 | リモートリポジトリのURLを確認 <br> $ git remote -v |
 | ローカル環境のファイルをgitで管理するときの初期設定 <br> $ git init |
