@@ -26,7 +26,7 @@ size_t strLcat(char *dst, const char *src, size_t size){
   size_t lest;
   size_t dlen;
 
-  for(pd = dst, lest = size; *pd != '\0' && lest != 0; pd++, lest--):
+  for(pd = dst, lest = size; *pd != '\0' && lest != 0; pd++, lest--);
 
   dlen = pd - dst;
   if(size - dlen == 0){
