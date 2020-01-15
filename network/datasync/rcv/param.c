@@ -39,7 +39,7 @@ void ParamLogOut(){
 
 /* パラメータファイル読み込み関数 */
 int ReadParam(char *filename){
-  FILF *fp;
+FILE *fp;
   char buf[1024];
   char *ptr;
   int no;
@@ -114,7 +114,7 @@ int ReadParam(char *filename){
       }
     }else if(strcmp(buf, "LogLevel") == 0){
       if((ptr = strtok(NULL, "\r\n")) != NULL){
-        Param.LogLevle = GetLogLevelValue(ptr);
+        Param.LogLevel = GetLogLevelValue(ptr);
       }
     }else if(strcmp(buf, "SlaveRecvTimeout") == 0){
       if((ptr = strtok(NULL, "\r\n")) != NULL){
