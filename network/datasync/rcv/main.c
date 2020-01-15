@@ -125,7 +125,7 @@ int main(int argc, char *argv[]){
   
   signal(SIGTERM, ending);
   signal(SIGQUIT, ending);
-  signal(SIGTERM, endign);
+  signal(SIGTERM, ending);
   signal(SIGINT, ending);
 
   MakeVersionFile();
@@ -216,7 +216,7 @@ int AcceptLoop(int s[], int s_no){
                 SyslogPerror(LOG_ERR, "AcceptLoop:accept");
               }
             }else{
-              if(getnameinf((struct sockaddr *)&from, fromlen, hbuf, sizeof(hbuf), sbuf, sizeof(sbuf), NI_NUMERICHOST|NI_NUMERICSERV)){
+              if(getnameinfo((struct sockaddr *)&from, fromlen, hbuf, sizeof(hbuf), sbuf, sizeof(sbuf), NI_NUMERICHOST|NI_NUMERICSERV)){
                 Syslog(LOG_ERR, "getnameinfo:error\n");
               }else{
                 Syslog(LOG_INFO, "AcceptLoop:accept(%d):%s:%s\n", i, hbuf, sbuf);
@@ -418,7 +418,7 @@ int SyncData(int acc, char *workfile){
         continue;
       }else if(strcmp(token.token[3], ",") != 0){
         Syslog(LOG_ERR, "SyncData:token.token[3](%s)!=\",\"\n", token.token[3]);
-        FreeToke(&token);
+        FreeToken(&token);
         free(buf);
         continue;
       }
@@ -440,7 +440,7 @@ int SyncData(int acc, char *workfile){
         if(Param.DeleteFlag == 1){
           if(CheckEraseData(acc, targetNo, ptr, mapEnd, token.token[4]) == -1){
             Syslog(LOG_ERR, "SyncData:CheckEraseData:error\n");
-            FreeToke(&token);
+            FreeToken(&token);
             free(buf);
             break;
           }
@@ -647,7 +647,7 @@ int SearchOne(char d_f, char *spath, char *mptr, char *tend, char *code){
     }else{
       startp = strchr(buf, ',');
     }
-    if(startp = NULL){
+    if(startp == NULL){
       free(buf);
       continue;
     }
@@ -685,7 +685,7 @@ int SyncOneFolder(int acc, int targetNo, char *code, char **mptr, char *mapEnd){
   char *ptr;
   char *buf;
   char *buf2;
-  char *fp;
+  char *p;
   int len;
   TOKEN token;
   int sjisFlag;
@@ -879,7 +879,7 @@ int GetOneFile(int acc, int targetNo, char *code, char *path, unsigned long time
 
   Syslog(LOG_INFO, "GetOneFile:acc=%d, targetNo=%d, code=%s, path=%s\n", acc, targetNo, code, path);
 
-  buf = (char *)malloc(strlne("#Get=") + 3 + strlen(Param.TargetFolder[targetNo].name) + strlen(path) + 1);
+  buf = (char *)malloc(strlen("#Get=") + 3 + strlen(Param.TargetFolder[targetNo].name) + strlen(path) + 1);
   sprintf(buf, "#Get=%s, %s\r\n", Param.TargetFolder[targetNo].name, path);
   Syslog(LOG_DEBUG, "GetOneFile:buf=%s\n", buf);
   if(StrCmp(code, "SJIS") == 0){
@@ -893,7 +893,7 @@ int GetOneFile(int acc, int targetNo, char *code, char *path, unsigned long time
   free(buf);
 
   while(1){
-    if(RecvOneLien_2(acc, &buf, 0) <= 0){
+    if(RecvOneLine_2(acc, &buf, 0) <= 0){
       Syslog(LOG_ERR, "GetOneFile:RecvOneLine_2:error or closed\n");
       return(-1);
     }else if((ptr = strchr(buf ,'#')) != NULL){
@@ -929,7 +929,7 @@ int GetOneFile(int acc, int targetNo, char *code, char *path, unsigned long time
         FreeToken(&token);
         free(buf);
         close(fd);
-        UnlockFile(buf);
+        UnlockFile(lf);
         return(-1);
       }else if(strcmp(token.token[1], "=") != 0){
         Syslog(LOG_ERR, "GetOneFile:token.token[1]!=\"=\":unlink\n");
@@ -938,7 +938,7 @@ int GetOneFile(int acc, int targetNo, char *code, char *path, unsigned long time
         FreeToken(&token);
         free(buf);
         close(fd);
-        UnlockFile(fd);
+        UnlockFile(lf);
         return(-1);
       }else if(strcmp(token.token[3], ",") != 0){
         Syslog(LOG_ERR, "GetOneFile:token.token[1]!=\",\":unlink\n");
@@ -994,7 +994,7 @@ int GetOneFile(int acc, int targetNo, char *code, char *path, unsigned long time
           lestSize -= len;
 
           /* Syslog(LOG_DEBUG, "GetOneFile:lestSize=%d\n", lestSize); */
-        }while(lestSize > 0)
+        }while(lestSize > 0);
 
         free(data);
       }
