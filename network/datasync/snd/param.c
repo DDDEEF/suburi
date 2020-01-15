@@ -23,7 +23,7 @@ void ParamLogOut(){
   int i;
 
   Syslog(LOG_INFO, "ParamLogOut:VERSION_STRING=%s\n", VERSION_STRING);
-  Syslog(LOG_INFO< "ParamLogOut:TargetFolderCnt=%d\n", Param.TargetFolderCnt);
+  Syslog(LOG_INFO, "ParamLogOut:TargetFolderCnt=%d\n", Param.TargetFolderCnt);
   for(i = 0; i < Param.TargetFolderCnt; i++){
     Syslog(LOG_INFO, "ParamLogOut:TargetFolder%d=%s,%s\n", i, Param.TargetFolder[i].name, Param.TargetFolder[i].path);
   }
@@ -36,7 +36,7 @@ void ParamLogOut(){
   Syslog(LOG_INFO, "ParamLogOut:UseDigest=%d\n", Param.UseDigest);
   Syslog(LOG_INFO, "ParamLogOut:SendSize=%d\n", Param.SendSize);
   Syslog(LOG_INFO, "ParamLogOut:LogPath=%s\n", Param.LogPath);
-  Syslog(LOG_IFNO, "ParamLogOut:LogLevel=%d\n", Param.LogLevel);
+  Syslog(LOG_INFO, "ParamLogOut:LogLevel=%d\n", Param.LogLevel);
   Syslog(LOG_INFO, "ParamLogOut:StderrOut=%d\n", Param.StderrOut);
   Syslog(LOG_INFO, "ParamLogOut:VersionFilePath=%s\n", Param.VersionFilePath);
   Syslog(LOG_INFO, "ParamLogOut:WorkFilePath=%s\n", Param.WorkFilePath);
@@ -140,7 +140,7 @@ int ReadParam(char *filename){
           }else{
             Syslog(LOG_ERR, "ReadParam:TargetHost%d:%s:no port\n", no, Param.TargetHost[no].host);
             free(Param.TargetHost[no].host);
-            Param.TargetHost[host].host = NULL;
+            Param.TargetHost[no].host = NULL;
             fclose(fp);
             return(-1);
           }
@@ -177,7 +177,7 @@ int ReadParam(char *filename){
     }else if(strcmp(buf, "SlaveRecvTimeout") == 0){
       if((ptr = strtok(NULL, "\r\n")) != NULL){
         Param.LogLevel = atoi(ptr);
-        if(Param.Loglevel == -1){
+        if(Param.LogLevel == -1){
           Param.LogLevel = LOG_INFO;
         }
       }

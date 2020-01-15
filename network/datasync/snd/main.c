@@ -161,7 +161,7 @@ int main(int argc, char *argv[]){
 /* バージョンファイル削除関数 */
 int DeleteVersionFile(){
   Syslog(LOG_DEBUG, "DeleteVersionFile:%s\n", Param.VersionFilePath);
-  unlike(Param.VersionFilePath);
+  unlink(Param.VersionFilePath);
   return(0);
 }
 
@@ -182,7 +182,7 @@ int MakeVersionFile(){
 }
 
 /* スレッド状態チェック関数(全部) */
-int ThreadNotExist(int status){
+int ThreadNotExistCheck(int status){
   int i;
   for(i = 0; i < Param.TargetHostCnt; i++){
     if(ThreadStatus[i].status != status){
@@ -323,15 +323,15 @@ void *WorkThread(void *arg){
 
   Syslog(LOG_DEBUG, "WorkThread:%d:start\n", no);
 
-  pthread_detach(pthrad_self());
+  pthread_detach(pthread_self());
 
-  if((ThraedStatus[no].soc = ClientSocketNew(Param.TargetHost[no].host, Param.TargetHost[no].port)) == -1){
+  if((ThreadStatus[no].soc = ClientSocketNew(Param.TargetHost[no].host, Param.TargetHost[no].port)) == -1){
     Syslog(LOG_ERR, "WorkThread:ClientSocketNew(%s,%s):-1\n", Param.TargetHost[no].host, Param.TargetHost[no].port);
     ThreadStatus[no].status = 0;
     return((void *)-1);
   }
 
-  SendSize(ThradStatus[no].soc, MapSize);
+  SendSize(ThreadStatus[no].soc, MapPtr, MapSize);
 
   ThreadStatus[no].status = 2;
 
@@ -419,7 +419,7 @@ int SendOneData(int soc, char *name, char *path){
     Syslog(LOG_ERR, "SendOneData:Cannot open %s\n", fullpath);
     SendToRemote(soc, "#Error=Cannot open file\n");
     free(fullpath);
-    UnLockFile(lf);
+    UnlockFile(lf);
     return(-1);
   }
   fstat(fd, &st);

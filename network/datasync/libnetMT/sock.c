@@ -124,7 +124,7 @@ int ClientSocketNew(char *hostnm, char *portnm){
 }
 
 /* 受信タイムアウト設定 */
-int SetRecvTimeoutSet(int sec){
+int SetRecvTimeoutSec(int sec){
   RecvTimeoutSec = sec;
   return(0);
 }
