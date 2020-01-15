@@ -7,7 +7,7 @@
 /* プロトタイプ */
 int ServerSocketNew(char *portnm, int s[], int maxsock);
 int ClientSocketNew(char *hostnm, char *portnm);
-int SetRecvTimeoutSet(int sec);
+int SetRecvTimeoutSec(int sec);
 int RecvTimeoutPoll(int soc, char *buf, int bufsize, int flag);
 int RecvOneLine_1(int soc, char *buf, int bufsize, int flag);
 int RecvOneLine_2(int soc, char **ret_buf, int flag);

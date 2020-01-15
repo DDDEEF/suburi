@@ -31,7 +31,7 @@ typedef struct {
   int RecvTimeout;
   int UseDigest;
   int SendSize;
-  char *Logpath;
+  char *LogPath;
   int LogLevel;
   int StderrOut;
   char *VersionFilePath;
