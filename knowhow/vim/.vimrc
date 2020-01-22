@@ -1,41 +1,3 @@
-"Dein.vim タグジャンプが使えるようにする
-"dein Scripts-----------------------------
-if &compatible
-  set nocompatible               " Be iMproved
-endif
-
-" Required:
-set runtimepath+=/Users/suzuki05/.vim/dein/repos/github.com/Shougo/dein.vim
-
-" Required:
-if dein#load_state('/Users/suzuki05/.vim/dein')
-  call dein#begin('/Users/suzuki05/.vim/dein')
-
-  " Let dein manage dein
-  " Required:
-  call dein#add('/Users/suzuki05/.vim/dein/repos/github.com/Shougo/dein.vim')
-
-  " Add or remove your plugins here like this:
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
-
-" Required:
-filetype plugin indent on
-syntax enable
-
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
-
-"End dein Scripts-------------------------
-call dein#add('vim-scripts/taglist.vim')
-
 "基本設定
 "文字コードをUFT-8に設定
 set fenc=utf-8
@@ -79,6 +41,8 @@ set shiftwidth=2
 set backspace=indent,eol,start
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
+"閲覧中のファイルのパスを表示
+set statusline+=%F
 
 "入力補完
 "大括弧の入力補完
@@ -91,35 +55,10 @@ imap ( ()
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 
-"ウィンドウの設定
-"定義値一覧ウィンドウ
-nnoremap <silent> q :TlistOpen<CR>
-"左
-nnoremap a <C-w>h
-"上
-nnoremap w <C-w>k
-"右
-nnoremap d <C-w>l
-"下
-nnoremap s <C-w>j
-"ウィンドウとタブを閉じる"
-nnoremap g :<C-u>q<CR>
-"縦分割
-nnoremap 1 :<C-u>vs<Space>
-"横分割
-nnoremap 2 :<C-u>sp<Space>
-
-"タブの設定
-"新たにタブを開く
-nnoremap e :<C-u>tabnew<Space>
-"進む
-nnoremap . gt
-"戻る
-nnoremap , gT
-
-"Grepの設定(quickfix-window)
-"Grep後に自動的にquickfix-windowを開く
-autocmd QuickFixCmdPost *grep* cwindow
+"tab設定
+nnoremap t :<C-u>tabnew<space>
+nnoremap < gt
+nnoremap > gT
 
 "検索の設定
 "検索結果のハイライト
@@ -131,4 +70,9 @@ nnoremap r :<C-u>noh<CR>
 "vim tagを再帰的に検索する
 set tags+=tags;
 
-"termの設定
+"gtagsの設定
+map <C-g> :Gtags
+map <C-h> :Gtags -f %<CR>
+map <C-j> :GtagsCursor<CR>
+map <C-n> :cn<CR>
+map <C-p> :cp<CR>
