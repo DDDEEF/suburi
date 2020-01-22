@@ -51,3 +51,11 @@ Ctrl＋g   grep -g 検索ワード
 
 参考元
 http://blog.matsumoto-r.jp/?p=2369
+
+### vim tab
+```
+t ファイル名  tabで新規に開く
+<           前のtabへ
+>           次のtabへ
+:tab sp     tabの複製
+```
