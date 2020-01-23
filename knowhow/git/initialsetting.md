@@ -38,12 +38,12 @@ $ git config --global --list
 $ git remote add origin git@github.com:foo/bar.git
 ```
 
-###git管理対象外ファイルの指定
+### git管理対象外ファイルの指定
 ```
 $ vim .gitignore
 ```
 
-###GitHubのremote先を設定する
+### GitHubのremote先を設定する
 ```
 $ git remote add origin git@github.com:foo/bar.git
 ```
