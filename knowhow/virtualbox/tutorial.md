@@ -3,10 +3,12 @@
 ##  VirtualBoxをインストール
 
 *下記のリンクから必要なOSを引っ張ってくる*
+
 https://www.virtualbox.org/wiki/Download_Old_Builds_6_0
 
 ## Vagrantをインストール
 *VirtualBoxを簡単に使うことができるようにするツールのVagrantを下記から引っ張ってくる*
+
 https://www.vagrantup.com/downloads.html
 
 ## 仮想マシンを立ち上げるまで
