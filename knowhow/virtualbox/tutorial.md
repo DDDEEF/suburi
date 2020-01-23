@@ -46,3 +46,57 @@ $ vagrant status
 ```
 $ vagrant ssh
 ```
+
+## 開発環境の構築をする。
+### gccコンパイラをインストール
+```
+$ sudo yum install gcc
+```
+
+### autoconfをインストール
+```
+$ sudo yum install autoconf
+```
+
+### wgetをインストール
+```
+$ sudo yum install wget
+```
+
+### gitをインストール
+```
+$ sudo yum install git
+```
+
+### vimをインストール
+```
+$ sudo yum install vim
+```
+
+### gdbをインストール
+```
+$ sudo yum install gdb
+```
+### ncurses-develをインストール
+```
+$ sudo yum install ncurses-devel.x86_64 
+```
+
+### vimのためのctagsをインストール
+```
+$ sudo yum install ctags
+$ ctags -R
+```
+
+### vimのためのgtagsをインストール
+```
+$ wget http://tamacom.com/global/global-6.5.4.tar.gz
+$ tar xzf global-6.5.4.tar.gz
+$ cd global-6.5.4 ;pwd
+$ ./configure 
+$ make
+$ sudo make install
+$ mkdir -p ~/.vim/plugin
+$ cp -ip /usr/local/share/gtags/gtags.vim ~/.vim/plugin
+$ gtags
+```
