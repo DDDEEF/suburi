@@ -1,4 +1,3 @@
-# Shut the fuck up and write some code カッコいいｗ
 | No | アウトプット用のgithub運用ルール|
 |:--:|:-------------------------|
 | 1  | ブランチ名は作成日に合わせて、"YYYYMMDDHHMM"にすること |
