@@ -1,6 +1,16 @@
 "基本設定
-"文字コードをUFT-8に設定
+"文字コードをutf-8に設定して保存する
 set fenc=utf-8
+"vimの内部文字コードをutf-8にエンコードする
+set encoding=utf-8
+"書き込み時の文字コードを指定する
+set fileencoding=utf-8
+"読み込み時の文字コードを指定する、左から順番に成功した文字コードになる
+set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
+"開いたソースファイルの改行コードの自動認識
+set fileformats=unix,dos,mac
+"ソースファイルの改行コードを指定する
+setl ff=unix
 "バックアップファイルを作らない
 set nobackup
 "スワップファイルを作らない
@@ -30,7 +40,7 @@ set wildmode=list:longest
 "シンタックスハイライトの有効化
 syntax on
 "カラースキーマ設定
-colorscheme elflord
+colorscheme morning
 "Tab文字を半角スペースにする
 set expandtab
 "行頭以外のTab文字の表示幅（スペースいくつ分）
@@ -42,7 +52,7 @@ set backspace=indent,eol,start
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
 "閲覧中のファイルのパスを表示
-set statusline+=%F
+set statusline+=%f
 
 "入力補完
 "大括弧の入力補完
@@ -56,23 +66,49 @@ inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 
 "tab設定
-nnoremap t :<C-u>tabnew<space>
-nnoremap < gt
-nnoremap > gT
+nnoremap . gt
+nnoremap , gT
 
 "検索の設定
 "検索結果のハイライト
 set hlsearch
-"ハイライト解除
-nnoremap r :<C-u>noh<CR>
+"文字列のハイライト
+nnoremap * *N
 
 "ctagsの設定
 "vim tagを再帰的に検索する
 set tags+=tags;
 
 "gtagsの設定
-map <C-g> :Gtags
-map <C-h> :Gtags -f %<CR>
-map <C-j> :GtagsCursor<CR>
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
+"grep検索
+nnoremap <C-g> :tab sp<CR> :Gtags -g<space>
+"カーソル位置の関数へジャンプ
+nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>
+"関数の定義元(define)へタグジャンプ
+nnoremap <C-d> :tab sp<CR> :<C-u>exe('Gtags '.expand('<cword>'))<CR>
+"関数の参照元(reference)へジャンプ
+nnoremap <C-r> :tab sp<CR> :<C-u>exe('Gtags -r '.expand('<cword>'))<CR>
+"開いているファイルに定義されている関数一覧を表示
+nnoremap <C-h> :Gtags -f %<CR>
+"次の検索結果へジャンプする
+nnoremap <C-n> :cn<CR>
+"前の検索結果にジャンプする
+nnoremap <C-p> :cp<CR>
+
+"Quickfixの設定
+"Quickfixも一緒に閉じるようにする
+augroup QfAutoCommands
+  autocmd!
+
+  " Auto-close quickfix window
+  autocmd WinEnter * if (winnr('$') == 1) && (getbufvar(winbufnr(0), '&buftype')) == 'quickfix' | quit | endif
+augroup END
+
+"current-func-info.vimの設定
+let &statusline .= ' [%{cfi#format("%s", "")}]'
+
+"コンパイルスイッチ用の設定
+"マクロが定義されていて、かつ値が0orFALSEのもの
+autocmd BufEnter * match Error /\<FIZZ\|BUZZ\>/
+"マクロが定義されていて、TRUEになるもの
+autocmd BufEnter * 2match Underlined /\<HOGE\|FUGA\>/
