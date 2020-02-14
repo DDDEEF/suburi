@@ -98,7 +98,7 @@ nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
 "Quickfixの設定
-"Quickfixも一緒に閉じるようにする
+"Quickfixを自動的に閉じる
 augroup QfAutoCommands
   autocmd!
 
