@@ -73,15 +73,17 @@ nnoremap , gT
 "検索結果のハイライト
 set hlsearch
 "文字列のハイライト
-nnoremap * *N
-
-"ctagsの設定
-"vim tagを再帰的に検索する
-set tags+=tags;
+"検索後に該当箇所を画面中央にする
+nmap n nzz
+nmap N Nzz
+nmap * *Nzz
+nmap # #Nzz
 
 "gtagsの設定
 "grep検索
 nnoremap <C-g> :tab sp<CR> :Gtags -g<space>
+"カーソル位置の文字列をgrep
+nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>
 "カーソル位置の関数へジャンプ
 nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>
 "関数の定義元(define)へタグジャンプ
@@ -104,11 +106,19 @@ augroup QfAutoCommands
   autocmd WinEnter * if (winnr('$') == 1) && (getbufvar(winbufnr(0), '&buftype')) == 'quickfix' | quit | endif
 augroup END
 
-"current-func-info.vimの設定
-let &statusline .= ' [%{cfi#format("%s", "")}]'
-
 "コンパイルスイッチ用の設定
 "マクロが定義されていて、かつ値が0orFALSEのもの
-autocmd BufEnter * match Error /\<FIZZ\|BUZZ\>/
+autocmd BufEnter * match Todo /\<FIZZ\|BUZZ\>/
 "マクロが定義されていて、TRUEになるもの
 autocmd BufEnter * 2match Underlined /\<HOGE\|FUGA\>/
+
+"現在の関数名を表示
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+map f :call ShowFuncName() <CR>
