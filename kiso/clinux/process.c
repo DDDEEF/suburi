@@ -13,8 +13,8 @@
 #include <sys/sem.h>
 
 // ファイルはプログラム実行前にあらかじめ作っておくこと
-// $ touch ../../tmp_area/
-#define SEMA_KEYFILE "../../tmp_area/"
+// $ touch ../../tmp_area/mysema.dat
+#define SEMA_KEYFILE "../../tmp_area/mysema.dat"
 #define SEMA_KEYID 'Y'
 
 // プロセス終了時、掴んでいたセマフォを自動解放する。
