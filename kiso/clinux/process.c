@@ -1,7 +1,7 @@
 /*
  * マルチプロセスにおけるセマフォのサンプルコード
  * *プロセス終了時、掴んでいたセマフォを自動解放する。
- * cc- Wall process.c -o process
+ * cc -Wall process.c -o process
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -92,7 +92,7 @@ void init_sema(void){
     exit(1);
   }
   id = semget(key, 1, 0666 | IPC_CREAT | IPC_EXCL );
-  if(key == -1){
+  if(id == -1){
     if(errno == EEXIST){
       //すでにセマフォが作成済み
       id = semget(key, 1, 0);
