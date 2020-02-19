@@ -6,7 +6,7 @@ set encoding=utf-8
 "書き込み時の文字コードを指定する
 set fileencoding=utf-8
 "読み込み時の文字コードを指定する、左から順番に成功した文字コードになる
-set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 "開いたソースファイルの改行コードの自動認識
 set fileformats=unix,dos,mac
 "ソースファイルの改行コードを指定する
