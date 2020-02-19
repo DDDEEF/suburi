@@ -1,10 +1,8 @@
 "基本設定
-"文字コードをutf-8に設定して保存する
-set fenc=utf-8
-"vimの内部文字コードをutf-8にエンコードする
-set encoding=utf-8
 "書き込み時の文字コードを指定する
 set fileencoding=utf-8
+"vimの内部文字コードをutf-8にエンコードする
+set encoding=utf-8
 "読み込み時の文字コードを指定する、左から順番に成功した文字コードになる
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 "開いたソースファイルの改行コードの自動認識
