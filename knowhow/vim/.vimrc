@@ -1,10 +1,10 @@
 "基本設定
-"書き込み時の文字コードを指定する
-set fileencoding=utf-8
 "vimの内部文字コードをutf-8にエンコードする
 set encoding=utf-8
+"書き込み時の文字コードを指定する
+set fileencoding=utf-8
 "読み込み時の文字コードを指定する、左から順番に成功した文字コードになる
-set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
+set fileencodings=utf-8,sjis,euc-jp,cp932,iso-2022-jp
 "開いたソースファイルの改行コードの自動認識
 set fileformats=unix,dos,mac
 "ソースファイルの改行コードを指定する
@@ -49,8 +49,8 @@ set shiftwidth=2
 set backspace=indent,eol,start
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
-"閲覧中のファイルのパスを表示
-set statusline+=%f
+"閲覧中のファイルの絶対パスを表示
+set statusline+=%F
 
 "入力補完
 "大括弧の入力補完
@@ -63,9 +63,37 @@ imap ( ()
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 
-"tab設定
+"タブ設定
 nnoremap . gt
 nnoremap , gT
+nnoremap st :tabnew<space>
+"タブラインの設定
+" Anywhere SID.
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+" Set tabline.
+function! s:my_tabline()  "{{{
+  let s = ''
+  for i in range(1, tabpagenr('$'))
+    let bufnrs = tabpagebuflist(i)
+    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
+    let no = i  " display 0-origin tabpagenr.
+    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
+    let title = fnamemodify(bufname(bufnr), ':t')
+    let title = '[' . title . ']'
+    let s .= '%'.i.'T'
+    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
+    let s .= no . ':' . title
+    let s .= mod
+    let s .= '%#TabLineFill# '
+  endfor
+  let s .= '%#TabLineFill#%T%=%#TabLine#'
+  return s
+endfunction "}}}
+let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
+set showtabline=2 " 常にタブラインを表示
 
 "検索の設定
 "検索結果のハイライト
@@ -76,6 +104,28 @@ nmap n nzz
 nmap N Nzz
 nmap * *Nzz
 nmap # #Nzz
+
+"ブックマーク機能の設定
+nnoremap bm :<C-u>marks<CR>
+if !exists('g:markrement_char')
+    let g:markrement_char = [
+    \     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    \     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    \ ]
+endif
+nnoremap <silent>m :<C-u>call <SID>AutoMarkrement()<CR>
+function! s:AutoMarkrement()
+    if !exists('b:markrement_pos')
+        let b:markrement_pos = 0
+    else
+        let b:markrement_pos = (b:markrement_pos + 1) % len(g:markrement_char)
+    endif
+    execute 'mark' g:markrement_char[b:markrement_pos]
+    echo 'marked' g:markrement_char[b:markrement_pos]
+endfunction
+"次/前のマーク
+"nnoremap > ]`
+"nnoremap < [`
 
 "gtagsの設定
 "grep検索
@@ -96,7 +146,7 @@ nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
 "Quickfixの設定
-"Quickfixを自動的に閉じる
+"Quickfixも一緒に閉じるようにする
 augroup QfAutoCommands
   autocmd!
 
