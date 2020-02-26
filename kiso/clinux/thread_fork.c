@@ -15,7 +15,7 @@
 #include <syscall.h>
 
 // ファイル
-#define FILENAME "/myfile.dat"
+#define FILENAME "../../tmp_area/sample.csv"
 
 // 生成するスレッドの最大数
 const int ThreadMax = 2;
@@ -54,7 +54,7 @@ void *sub_thread2(void *arg){
   }else{        // 親プロセス
     g_forked = 1;
 
-    printf("(2)Parent pid=%d ppid=%d tid=%d\n", getpid(), getppid(), my_gettied());
+    printf("(2)Parent pid=%d ppid=%d tid=%d\n", getpid(), getppid(), my_gettid());
 
     waitpid(pid, NULL, 0);
 
