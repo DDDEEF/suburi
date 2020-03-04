@@ -1,4 +1,6 @@
 "基本設定
+"viとの互換性をとらないようにする
+set nocompatible
 "vimの内部文字コードをutf-8にエンコードする
 set encoding=utf-8
 "書き込み時の文字コードを指定する
@@ -15,33 +17,39 @@ set nobackup
 set noswapfile
 "編集中のファイルが変更されたら自動で読み直す
 set autoread
-"バッファが編集中でもその他のファイルを開けるように
+"バッファが編集中でもその他のファイルを開けるようにする
 set hidden
 "入力中のコマンドをステータスに表示する
 set showcmd
 "行番号を表示
 set number
-"現在の行を強調表示
+"現在の行を強調表示する
 set cursorline
-"現在の行を強調表示（縦）
+"現在の行を強調表示する（縦）
 set cursorcolumn
-"行末の1文字先までカーソルを移動できるように
+"行末の1文字先までカーソルを移動できるようにする
 set virtualedit=onemore
 "インデントはスマートインデント
 set smartindent
-"括弧入力時の対応する括弧を表示
+"括弧入力時の対応する括弧を表示する
 set showmatch
-"ステータスラインを常に表示
+"ステータスラインを常に表示する
 set laststatus=2
-"コマンドラインの補完
+"ステータスラインに閲覧中のファイルの絶対パスを表示する
+set statusline+=%F
+"ステータスラインに文字コードと改行文字を表示する
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+"コマンドラインの補完をする
 set wildmode=list:longest
-"シンタックスハイライトの有効化
+"シンタックスハイライトの有効化する
 syntax on
+"起動時に前回の検索文字をハイライトしない
+set viminfo+=h
 "カラースキーマ設定
-colorscheme morning
+"colorscheme morning
 "Tab文字を半角スペースにする
 set expandtab
-"行頭以外のTab文字の表示幅（スペースいくつ分）
+"行頭以外のTab文字の表示幅（スペース2つ分）
 set tabstop=2
 "行頭でのTab文字の表示幅
 set shiftwidth=2
@@ -49,8 +57,32 @@ set shiftwidth=2
 set backspace=indent,eol,start
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
-"閲覧中のファイルの絶対パスを表示
-set statusline+=%F
+"検索がループしないようにする
+set nowrapscan
+"行は折り返さない
+set nowrap
+"カーソルを行頭、行末で止まらないようにする
+set whichwrap=h,l
+"文字ないところにカーソル移動ができるようにする
+set virtualedit=block
+"カーソルの上または下に表示する最小限の行数
+set scrolloff=2
+"左下に表示される挿入などの文字を表示しない
+set noshowmode
+"ステータスラインの色
+highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
+"ブラウザと同じ操作 スペースでダウンアップ
+nnoremap <Space>  <C-E>
+nnoremap <S-Space> <C-Y>
+"コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
+autocmd FileType * set formatoptions-=ro
+"標準プラグインのnetrw.vimでディレクトリをツリー表示する
+"tで新しいタブで開く
+let g:netrw_liststyle=3
+".viminfoの位置を固定 削除はrmコマンド
+set viminfo+=n~/.vim/.viminfo
+"ビープ音と画面フラッシュを止める
+set noerrorbells visualbell t_vb=
 
 "入力補完
 "大括弧の入力補完
@@ -63,69 +95,33 @@ imap ( ()
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 
-"タブ設定
+"タブページの設定
+"タブページを常に表示
+set showtabline=2
+"タブページの移動
 nnoremap . gt
 nnoremap , gT
-nnoremap st :tabnew<space>
-"タブラインの設定
-" Anywhere SID.
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
-" Set tabline.
-function! s:my_tabline()  "{{{
-  let s = ''
-  for i in range(1, tabpagenr('$'))
-    let bufnrs = tabpagebuflist(i)
-    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-    let no = i  " display 0-origin tabpagenr.
-    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-    let title = fnamemodify(bufname(bufnr), ':t')
-    let title = '[' . title . ']'
-    let s .= '%'.i.'T'
-    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let s .= no . ':' . title
-    let s .= mod
-    let s .= '%#TabLineFill# '
-  endfor
-  let s .= '%#TabLineFill#%T%=%#TabLine#'
-  return s
-endfunction "}}}
-let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
-set showtabline=2 " 常にタブラインを表示
 
 "検索の設定
 "検索結果のハイライト
 set hlsearch
 "文字列のハイライト
 "検索後に該当箇所を画面中央にする
-nmap n nzz
-nmap N Nzz
-nmap * *Nzz
-nmap # #Nzz
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *Nzz
+nnoremap # #Nzz
 
-"ブックマーク機能の設定
-nnoremap bm :<C-u>marks<CR>
-if !exists('g:markrement_char')
-    let g:markrement_char = [
-    \     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-    \     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-    \ ]
-endif
-nnoremap <silent>m :<C-u>call <SID>AutoMarkrement()<CR>
-function! s:AutoMarkrement()
-    if !exists('b:markrement_pos')
-        let b:markrement_pos = 0
-    else
-        let b:markrement_pos = (b:markrement_pos + 1) % len(g:markrement_char)
-    endif
-    execute 'mark' g:markrement_char[b:markrement_pos]
-    echo 'marked' g:markrement_char[b:markrement_pos]
-endfunction
-"次/前のマーク
-"nnoremap > ]`
-"nnoremap < [`
+"現在の関数名を表示
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+map f :call ShowFuncName() <CR>
 
 "gtagsの設定
 "grep検索
@@ -134,10 +130,6 @@ nnoremap <C-g> :tab sp<CR> :Gtags -g<space>
 nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>
 "カーソル位置の関数へジャンプ
 nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>
-"関数の定義元(define)へタグジャンプ
-nnoremap <C-d> :tab sp<CR> :<C-u>exe('Gtags '.expand('<cword>'))<CR>
-"関数の参照元(reference)へジャンプ
-nnoremap <C-r> :tab sp<CR> :<C-u>exe('Gtags -r '.expand('<cword>'))<CR>
 "開いているファイルに定義されている関数一覧を表示
 nnoremap <C-h> :Gtags -f %<CR>
 "次の検索結果へジャンプする
@@ -146,7 +138,7 @@ nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
 "Quickfixの設定
-"Quickfixを自動的に閉じるようにする
+"Quickfixも一緒に閉じるようにする
 augroup QfAutoCommands
   autocmd!
 
@@ -159,14 +151,3 @@ augroup END
 autocmd BufEnter * match Todo /\<FIZZ\|BUZZ\>/
 "マクロが定義されていて、TRUEになるもの
 autocmd BufEnter * 2match Underlined /\<HOGE\|FUGA\>/
-
-"現在の関数名を表示
-fun! ShowFuncName()
-  let lnum = line(".")
-  let col = col(".")
-  echohl ModeMsg
-  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
-  echohl None
-  call search("\\%" . lnum . "l" . "\\%" . col . "c")
-endfun
-map f :call ShowFuncName() <CR>
