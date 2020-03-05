@@ -77,12 +77,15 @@ nnoremap <S-Space> <C-Y>
 "コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
 autocmd FileType * set formatoptions-=ro
 "標準プラグインのnetrw.vimでディレクトリをツリー表示する
-"tで新しいタブで開く
 let g:netrw_liststyle=3
+"エクスプローラを開く
+nnoremap tt :Texplore <CR>
 ".viminfoの位置を固定 削除はrmコマンド
 set viminfo+=n~/.vim/.viminfo
 "ビープ音と画面フラッシュを止める
 set noerrorbells visualbell t_vb=
+"qで閉じる
+nnoremap q :q <CR>
 
 "入力補完
 "大括弧の入力補完
@@ -141,7 +144,6 @@ nnoremap <C-p> :cp<CR>
 "Quickfixも一緒に閉じるようにする
 augroup QfAutoCommands
   autocmd!
-
   " Auto-close quickfix window
   autocmd WinEnter * if (winnr('$') == 1) && (getbufvar(winbufnr(0), '&buftype')) == 'quickfix' | quit | endif
 augroup END
