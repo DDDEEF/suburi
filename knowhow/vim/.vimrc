@@ -7,13 +7,13 @@ set encoding=utf-8
 set fileencoding=utf-8
 "読み込み時の文字コードを指定する、左から順番に成功した文字コードになる
 set fileencodings=utf-8,sjis,euc-jp,cp932,iso-2022-jp
-"開いたソースファイルの改行コードの自動認識
+"開いたソースファイルの改行コードの自動認識する
 set fileformats=unix,dos,mac
 "ソースファイルの改行コードを指定する
 setl ff=unix
-"バックアップファイルを作らない
+"バックアップファイルを作らないようにする
 set nobackup
-"スワップファイルを作らない
+"スワップファイルを作らないようにする
 set noswapfile
 "編集中のファイルが変更されたら自動で読み直す
 set autoread
@@ -21,7 +21,7 @@ set autoread
 set hidden
 "入力中のコマンドをステータスに表示する
 set showcmd
-"行番号を表示
+"行番号を表示する
 set number
 "現在の行を強調表示する
 set cursorline
@@ -29,16 +29,12 @@ set cursorline
 set cursorcolumn
 "行末の1文字先までカーソルを移動できるようにする
 set virtualedit=onemore
-"インデントはスマートインデント
-set smartindent
 "括弧入力時の対応する括弧を表示する
 set showmatch
 "ステータスラインを常に表示する
 set laststatus=2
-"ステータスラインに閲覧中のファイルの絶対パスを表示する
-set statusline+=%F
-"ステータスラインに文字コードと改行文字を表示する
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+"ステータスラインに閲覧中のファイルパスと文字コードと改行文字を表示する
+set statusline=%<%F\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 "コマンドラインの補完をする
 set wildmode=list:longest
 "シンタックスハイライトの有効化する
@@ -46,26 +42,30 @@ syntax on
 "起動時に前回の検索文字をハイライトしない
 set viminfo+=h
 "カラースキーマ設定
-"colorscheme morning
+colorscheme morning
+"インデントはスマートインデントにする
+set smartindent
 "Tab文字を半角スペースにする
 set expandtab
 "行頭以外のTab文字の表示幅（スペース2つ分）
 set tabstop=2
 "行頭でのTab文字の表示幅
 set shiftwidth=2
+"改行時に前の行のインデントを継続する
+set autoindent
 "挿入モードでback spaceが効かない対策
 set backspace=indent,eol,start
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
 "検索がループしないようにする
 set nowrapscan
-"行は折り返さない
-set nowrap
+"行は折り返さないようにする
+"set nowrap
 "カーソルを行頭、行末で止まらないようにする
 set whichwrap=h,l
 "文字ないところにカーソル移動ができるようにする
 set virtualedit=block
-"カーソルの上または下に表示する最小限の行数
+"カーソルの上または下に表示する最小限の行数を2とする
 set scrolloff=2
 "左下に表示される挿入などの文字を表示しない
 set noshowmode
@@ -84,26 +84,27 @@ nnoremap tt :Texplore <CR>
 set viminfo+=n~/.vim/.viminfo
 "ビープ音と画面フラッシュを止める
 set noerrorbells visualbell t_vb=
-"qで閉じる
-nnoremap q :q <CR>
 
 "入力補完
+"ノーマルモードへ
+inoremap <C-c> <Esc>
+"S-hで左端へ
+noremap <S-h> ^
+"S-lで右側へ
+noremap <S-l> $
 "大括弧の入力補完
-imap [ []<Left>
+inoremap [ []<ESC>i
 "中括弧の入力補完
-imap { {<return><return>}<UP><TAB>
+inoremap { {<return><return>}<UP><TAB>
 "小括弧の入力補完
-imap ( ()
+inoremap ( ()<ESC>i
 "クォーテーションの入力補完
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
-
-"タブページの設定
-"タブページを常に表示
-set showtabline=2
-"タブページの移動
-nnoremap . gt
-nnoremap , gT
+"qで閉じる
+nnoremap q :q <CR>
+"aで行末から入力
+nnoremap a A
 
 "検索の設定
 "検索結果のハイライト
@@ -114,6 +115,13 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *Nzz
 nnoremap # #Nzz
+
+"タブページの設定
+"タブページを常に表示
+set showtabline=2
+"タブページの移動
+nnoremap . gt
+nnoremap , gT
 
 "現在の関数名を表示
 fun! ShowFuncName()
