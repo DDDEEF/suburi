@@ -14,6 +14,8 @@
 | ブランチ作成 <br> $ git branch newbranch |
 | ブランチ移動 <br> $ git checkout newbranch |
 | ローカルにあるブランチを削除 <br> $ git branch -D oldbranch |
+| リモートにあるブランチを確認 <br> $ git branch -r |
+| リモートにあるブランチを削除 <br> $ git push --delete origin branch_name |
 | 変更のあったファイルを確認 <br> $ git status |
 | 変更をadd <br> $ git add . |
 | addしたファイルをcommit <br> $ git commit -m "message" |
