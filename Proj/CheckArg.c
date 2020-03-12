@@ -12,8 +12,8 @@ typedef enum{
  *********************************************************/
 static void tr_traceCourse(void){
   error_t err;        /* nv_naviCourseの引数チェックの結果 */
-  diffCourse_t;       /* コースとのズレ */
-  directionVector_t;  /* 進行方向 */
+  diffCourse_t diff;       /* コースとのズレ */
+  directionVector_t drct;  /* 進行方向 */
 
   diff = cs_datectDifference();     /* ズレを検出する */
   err = nv_naviCource(diff, &drct); /* 進行方向を決める */
