@@ -105,6 +105,12 @@ inoremap ' ''<LEFT>
 nnoremap q :q <CR>
 "aで行末から入力
 nnoremap a A
+";で行末に;を入力
+nnoremap ; A;<ESC>
+"{で行末に{を入力
+nnoremap { A{<return><return>}<UP><TAB>
+"=で行末に=を入力
+nnoremap = A=<Space>
 
 "検索の設定
 "検索結果のハイライト
