@@ -91,7 +91,7 @@ void outputWyleCode(int value, FILE *fp){
   int i;
 
   s = 1;
-  s = absi(value - 1);
+  a = absi(value - 1);
   length = getLengthForWyle(a);
 
   for(i = 0; i < length; i++){
