@@ -71,27 +71,31 @@ set scrolloff=2
 set noshowmode
 "ステータスラインの色
 highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
-"ブラウザと同じ操作 スペースでダウンアップ
-nnoremap <Space>  <C-E>
-nnoremap <S-Space> <C-Y>
 "コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
 autocmd FileType * set formatoptions-=ro
-"標準プラグインのnetrw.vimでディレクトリをツリー表示する
-let g:netrw_liststyle=3
-"エクスプローラを開く
-nnoremap tt :Texplore <CR>
 ".viminfoの位置を固定 削除はrmコマンド
 set viminfo+=n~/.vim/.viminfo
 "ビープ音と画面フラッシュを止める
 set noerrorbells visualbell t_vb=
+"標準プラグインのnetrw.vimでディレクトリをツリー表示する
+let g:netrw_liststyle=3
+"エクスプローラを開く
+nnoremap tt :Texplore <CR>
 
 "入力補完
 "ノーマルモードへ
 inoremap <C-c> <Esc>
-"S-hで左端へ
-noremap <S-h> ^
-"S-lで右側へ
-noremap <S-l> $
+"インサートモードで右へ
+inoremap <C-l> <Right>
+"インサートモードで左へ
+inoremap <C-h> <Left>
+"インサートモードへo
+inoremap <C-o> <Esc>o
+"インサートモードでa
+inoremap <C-a> <Esc>A
+"インサートモードで;
+inoremap <C-;> <Esc>A;
+
 "大括弧の入力補完
 inoremap [ []<ESC>i
 "中括弧の入力補完
@@ -110,7 +114,7 @@ nnoremap ; A;<ESC>
 "{で行末に{を入力
 nnoremap { A{<return><return>}<UP><TAB>
 "=で行末に=を入力
-nnoremap = A=<Space>
+nnoremap = A<Space>=<Space>
 
 "検索の設定
 "検索結果のハイライト
@@ -125,6 +129,8 @@ nnoremap # #Nzz
 "タブページの設定
 "タブページを常に表示
 set showtabline=2
+"タブページの複製
+nnoremap s :tab sp<CR>
 "タブページの移動
 nnoremap . gt
 nnoremap , gT
