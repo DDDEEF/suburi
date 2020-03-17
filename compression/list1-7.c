@@ -17,7 +17,7 @@ int main(int ac, char *av[]){
     exit(8);
   }
 
-  // 伸長処理する
+  // 伸張処理する
   fp_o = fopen(av[2], "wb");
   if(fp_o == NULL){
     fprintf(stderr, "Output File cannnot open\n");
@@ -30,7 +30,7 @@ int main(int ac, char *av[]){
 
 /*
   fp_iで指定されるファイルデータをランレングス符号化による圧縮結果とし、
-  それを伸長して、結果をfp_oで指定されるファイルに出力する
+  それを伸張して、結果をfp_oで指定されるファイルに出力する
 */
 int decodeData(FILE *fp_i, FILE *fp_o){
   int i;
