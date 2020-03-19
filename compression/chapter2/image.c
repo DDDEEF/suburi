@@ -40,3 +40,14 @@ ImageData *createImage(int width, int height, int depth){
   new_image->depth = depth;
   return new_image;
 }
+
+/*
+  画像データの廃棄
+*/
+void disposeImage(ImageData *image){
+  if(image->pixels != NULL){
+    free(image->pixels);
+  }
+  free(image);
+  return;
+}
