@@ -4,6 +4,12 @@ typedef struct STRUCT_IMAGE{
   void *pixels;
 }ImageData;
 
+typedef struct STRUCT_PIXEL{
+  int r;    // Red成分
+  int g;    // Green成分
+  int b;    // Blue成分
+}Pixel;
+
 /*
   画像データ作成
   width :画像の横幅
@@ -50,4 +56,61 @@ void disposeImage(ImageData *image){
   }
   free(image);
   return;
+}
+
+/*
+  画像データ上の画素値を取得
+  x,y 画素の座標
+  pix 画素値を格納する
+*/
+int getPixel(ImageData *image, int x, int y, Pixel *pixel){
+  int return_value = 1;
+  int adress;     //画素の画像上の位置
+  int depth;
+  int gray_value;
+  BYTE *pixels;
+
+  if(image == NULL){
+    return -1;
+  }
+  if(image->pixels == NULL){
+    return -1;
+  }
+  // 画像外の座標が指定された場合の処理(最も近い画像上の画素を参照する)
+  if(x < 0){
+    x = 0;
+    return_value = 0;
+  }
+  if(x >= image->width){
+    x = image->width - 1; 
+    return_value = 0;
+  }
+
+  if(y < 0){
+    y = 0;
+    return_value = 0;
+  }
+  if(y >= image->height){
+    y = image->height - 1;
+    return_value = 0;
+  }
+  depth = image->depth;
+  adress = x + y * image->width;
+  pixels = image->pixels;
+  if(depth == 8){   //グレースケールの場合は、RGBすべて同じ値をセットする
+    gray_value = pixels[adress];
+    pixel->r = gray_value;
+    pixel->g = gray_value;
+    pixel->b = gray_value;
+  }else if(depth == 24){
+    pixels += (adress * 3);
+    pixel->r = (*pixels);
+    pixels++;
+    pixel->g = (*pixels);
+    pixels++;
+    pixel->b = (*pixels);
+  }else{
+    return -1;
+  }
+  return return_value;
 }
