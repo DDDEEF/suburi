@@ -105,7 +105,7 @@ int freadWORD(DWORD *res, FILE *fp){
 // BMPの種類を判別
 // 戻り値 FALSE OS/2形式
 //          TRUE Windows形式
-static BOOL IsWinDIB(BITMAPINFOHEADER * pBIH){
+static BOOL IsWinDIB(BITMAPINFOHEADER *pBIH){
   if(((BITMAPCOREHEADER *)pBIH)->bcSize == sizeof(BITMAPCOREHEADER)){
     return FALSE;
   }
@@ -135,15 +135,17 @@ int countOfDIBColorEntries(int iBitCount){
 }
 
 // パディング要素を考慮して1列分のバイト数を求める
+// BMPフォーマットは1列のバイト数が32ビット(4バイト)長でないといけない
+// depthは1画素を何ビットで表現するか
 int getDIBxmax(int width, int depth){
   switch(depth){
     case 32:
       return width * 4;
     case 24:
-      return ((width*3) + 3) / 4 * 4;
+      return ((width * 3) + 3) / 4 * 4;
       break;
     case 16:
-      return (width + 1) / 2 * 2;
+      return (width + 1) / 2 * 4;
       break;
     case 8:
       return (width + 3) / 4 * 4;
@@ -156,7 +158,6 @@ int getDIBxmax(int width, int depth){
   }
   return width;
 }
-
 // List2-7
 // BMPデータをファイルより読み込み
 int readBMPfile(char *filename, ImageData **image){
@@ -210,7 +211,7 @@ int readBMPfile(char *filename, ImageData **image){
   }
   // 予約用領域(未使用)
   if(!freadWORD(&HEAD_bfReserved2, fp)){
-    errcode =- 10; 
+    errcode =- 10;
     goto $ABORT;
   }
   // オフセット
