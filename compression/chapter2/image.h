@@ -8,12 +8,13 @@ typedef unsigned char BYTE;
 typedef struct STRUCT_IMAGE{
   int width;
   int height;
+  int depth;
   void *pixels;
 }ImageData;
 
 #define PIXELMAX 255
 
-typedef STRUCT_PIXEL{
+typedef struct STRUCT_PIXEL{
   int r;    // Red成分
   int g;    // Green成分
   int b;    // Blue成分
@@ -28,7 +29,7 @@ typedef struct STRUCT_COORDINATE{
 }Coordinate;
 
 ImageData *createImage(int width, int height, int depth);
-void disposeImage(ImageData, *img);
+void disposeImage(ImageData *img);
 //int readBMPfile(char *fname, ImageData **img);
 //int writeBMPfile(char *fname, ImageData **img);
 int getPixel(ImageData *img, int x, int y, Pixel *pix);
