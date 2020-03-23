@@ -43,6 +43,31 @@ typedef struct tagBITMAPINFOHEADER{
 
 #define MAXCOLORS 256
 
+void main(int ac, char *av[]){
+  ImageData *image;
+  int x, y;
+  Pixel pixel1, pixel2;
+
+  pixel1.r = 255;
+  pixel1.g = 255;
+  pixel1.b = 255;
+  pixel2.r = 0;
+  pixel2.g = 0;
+  pixel2.b = 0;
+  image = createImage(100, 100, 24);
+  for(y = 0; y < 100; y++){
+    for(x = 0; x < 100; x++){
+      if(x%2 == y%2){
+        setPixel(image, x, y, &pixel1);
+      }else{
+        setPixel(image, x, y, &pixel2);
+      }
+    }
+  }
+  writeBMPfile("out.bmp", image);
+  disposeImage(image);
+}
+
 // ファイルより2バイト整数を書き込む(リトルエンディアン)
 int fwriteWORD(WORD val, FILE *fp){
   int i, c;
@@ -81,7 +106,7 @@ int freadWORD(WORD *res, FILE *fp){
 }
 
 // ファイルより4バイト整数を読み込む(リトルエンディアン)
-int freadWORD(DWORD *res, FILE *fp){
+int freadDWORD(DWORD *res, FILE *fp){
   int i, c;
   int val[4];
   DWORD tmp = 0;
@@ -105,7 +130,7 @@ int freadWORD(DWORD *res, FILE *fp){
 // BMPの種類を判別
 // 戻り値 FALSE OS/2形式
 //          TRUE Windows形式
-static BOOL IsWinDIB(BITMAPINFOHEADER * pBIH){
+static BOOL IsWinDIB(BITMAPINFOHEADER *pBIH){
   if(((BITMAPCOREHEADER *)pBIH)->bcSize == sizeof(BITMAPCOREHEADER)){
     return FALSE;
   }
@@ -114,6 +139,7 @@ static BOOL IsWinDIB(BITMAPINFOHEADER * pBIH){
 
 // パレットのサイズを取得
 // iBitCount 1画素あたりのビット数
+// iBitCoutnはdepth, iColorsは階調
 int countOfDIBColorEntries(int iBitCount){
   int iColors;
 
@@ -135,15 +161,17 @@ int countOfDIBColorEntries(int iBitCount){
 }
 
 // パディング要素を考慮して1列分のバイト数を求める
+// BMPフォーマットは1列のバイト数が32ビット(4バイト)長でないといけない
+// depthは1画素を何ビットで表現するか
 int getDIBxmax(int width, int depth){
   switch(depth){
     case 32:
       return width * 4;
     case 24:
-      return ((width*3) + 3) / 4 * 4;
+      return ((width * 3) + 3) / 4 * 4;
       break;
     case 16:
-      return (width + 1) / 2 * 2;
+      return (width + 1) / 2 * 4;
       break;
     case 8:
       return (width + 3) / 4 * 4;
@@ -156,12 +184,12 @@ int getDIBxmax(int width, int depth){
   }
   return width;
 }
-
 // List2-7
 // BMPデータをファイルより読み込み
 int readBMPfile(char *filename, ImageData **image){
   int i;
   int c;
+  int errcode = 0;
   BITMAPFILEHEADER BMPFile;
   BITMAPINFOHEADER BMPInfo;
   BITMAPCOREHEADER BMPCore;
@@ -177,11 +205,11 @@ int readBMPfile(char *filename, ImageData **image){
   FILE *fp;
 
   WORD HEAD_bfType;
-  SWORD HEAD_bfSize;
+  DWORD HEAD_bfSize;
   WORD HEAD_bfReserved1;
   WORD HEAD_bfReserved2;
   DWORD HEAD_bfOffBits;
-  DWORD HEAD_bfSize;
+  DWORD INFO_bfSize;
   Pixel palet[MAXCOLORS];
   Pixel setcolor;
 
@@ -210,7 +238,7 @@ int readBMPfile(char *filename, ImageData **image){
   }
   // 予約用領域(未使用)
   if(!freadWORD(&HEAD_bfReserved2, fp)){
-    errcode =- 10; 
+    errcode =- 10;
     goto $ABORT;
   }
   // オフセット
@@ -335,7 +363,7 @@ int readBMPfile(char *filename, ImageData **image){
 
   // パレット情報の読み込み
   // BMPの種類によってフォーマットが異なるので処理をわける
-  if(!siPM){
+  if(!isPM){
     for(i = 0; i < colors; i++){
       //Blue成分
       c = fgetc(fp);
@@ -461,7 +489,7 @@ int writeBMPfile(char *filename, ImageData *image){
 
   // フルカラー以外サポート外
   if(depth != 24){
-    goto $abor1;
+    goto $abort1;
   }
   // フルカラー以外のことを若干考慮しているが未実装 フルカラーのみなら、本来 --end-- の部分まで不要
   if(depth == 24){
@@ -482,7 +510,7 @@ int writeBMPfile(char *filename, ImageData *image){
   bfn.bfSize = 14         // sizeof(BITMAPFILEHEADER)
              + 40         // sizeof(BITMAPINFOHEADER)
              + palet_size * 4 // sizeof(RGBQUAD)
-             mxbyte * height * byte_per_pixel;
+             + mxbyte * height * byte_per_pixel;
   bfn.bfReserved1 = 0;
   bfn.bfReserved2 = 0;
   bfn.bfOffBits = 14        // sizeof(BITMAPFILEHEADER)
@@ -516,10 +544,10 @@ int writeBMPfile(char *filename, ImageData *image){
   // 画像データの書き出し
   for(y = height - 1; y >= 0; y--){
     for(x = 0; x < width; x++){
-      getPixel(image, x, y, &pixle);
+      getPixel(image, x, y, &pixel);
       fputc(pixel.b, fp);
       fputc(pixel.g, fp);
-      fputc(pixle.r, fp);
+      fputc(pixel.r, fp);
     }
     // Padding部の出力
     for(i = 0; i < pad; i++){

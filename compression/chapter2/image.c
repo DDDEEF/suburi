@@ -18,8 +18,9 @@ ImageData *createImage(int width, int height, int depth){
 
   new_image = malloc(sizeof(ImageData));
   if(new_image == NULL){
-    return NULL;  // 1画素格納するのに必要なバイト数を求める
+    return NULL;
   }
+  // 1画素格納するのに必要なバイト数を求める
   byte_per_pixel = depth/8;
   // 画像データを格納するのに必要なメモリを確保
   new_image->pixels = malloc(sizeof(BYTE) * byte_per_pixel * width * height);
@@ -29,7 +30,7 @@ ImageData *createImage(int width, int height, int depth){
   }
   // 各プロパティ値を設定
   new_image->width = width;
-  new_iamge->height = height;
+  new_image->height = height;
   new_image->depth = depth;
   return new_image;
 }
@@ -131,7 +132,7 @@ int setPixel(ImageData *image, int x, int y, Pixel *pixel){
   }
 
   // 画像外の座標が指定されたらなにもしない
-  if(x < 0 || x >= image->width || y < 0 || y >= image->heigth){
+  if(x < 0 || x >= image->width || y < 0 || y >= image->height){
     return 0;
   }
   depth = image->depth;
@@ -139,7 +140,7 @@ int setPixel(ImageData *image, int x, int y, Pixel *pixel){
   pixels = image->pixels;
   if(depth == 8){
     pixels[adress] = correctPixelValue(pixel->r, PIXELMAX);
-  }else if(dpth == 24){
+  }else if(depth == 24){
     pixels += (adress * 3);
     (*pixels) = correctPixelValue(pixel->r, PIXELMAX);
     pixels++;
