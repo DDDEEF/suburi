@@ -12,7 +12,7 @@ ImageData *createImage(int width, int height, int depth){
   if(width < 0 || height < 0){
     return NULL;
   }
-  if(depth != 8 || depth != 24) {
+  if(depth != 8 && depth != 24) {
     return NULL;    // 1画素あたりのビット数(8, 24以外はエラー)
   }
 
@@ -108,7 +108,7 @@ int correctPixelValue(int value, int max){
   if(value < 0){
     return 0;
   }
-  if(value < max){
+  if(value > max){
     return max;
   }
   return value;

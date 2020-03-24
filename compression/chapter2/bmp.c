@@ -43,31 +43,6 @@ typedef struct tagBITMAPINFOHEADER{
 
 #define MAXCOLORS 256
 
-void main(int ac, char *av[]){
-  ImageData *image;
-  int x, y;
-  Pixel pixel1, pixel2;
-
-  pixel1.r = 255;
-  pixel1.g = 255;
-  pixel1.b = 255;
-  pixel2.r = 0;
-  pixel2.g = 0;
-  pixel2.b = 0;
-  image = createImage(100, 100, 24);
-  for(y = 0; y < 100; y++){
-    for(x = 0; x < 100; x++){
-      if(x%2 == y%2){
-        setPixel(image, x, y, &pixel1);
-      }else{
-        setPixel(image, x, y, &pixel2);
-      }
-    }
-  }
-  writeBMPfile("out.bmp", image);
-  disposeImage(image);
-}
-
 // ファイルより2バイト整数を書き込む(リトルエンディアン)
 int fwriteWORD(WORD val, FILE *fp){
   int i, c;
@@ -560,4 +535,29 @@ $abort1:
 $abort2:
   fclose(fp);
   return 1;
+}
+
+void main(int ac, char *av[]){
+  ImageData *image;
+  int x, y;
+  Pixel pixel1, pixel2;
+
+  pixel1.r = 255;
+  pixel1.g = 255;
+  pixel1.b = 255;
+  pixel2.r = 0;
+  pixel2.g = 0;
+  pixel2.b = 0;
+  image = createImage(100, 100, 24);
+  for(y = 0; y < 100; y++){
+    for(x = 0; x < 100; x++){
+      if(x%2 == y%2){
+        setPixel(image, x, y, &pixel1);
+      }else{
+        setPixel(image, x, y, &pixel2);
+      }
+    }
+  }
+  writeBMPfile("out.bmp", image);
+  disposeImage(image);
 }
