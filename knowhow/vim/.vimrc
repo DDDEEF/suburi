@@ -19,6 +19,8 @@ set noswapfile
 set autoread
 "バッファが編集中でもその他のファイルを開けるようにする
 set hidden
+"タイトルを表示する
+set title
 "入力中のコマンドをステータスに表示する
 set showcmd
 "行番号を表示する
@@ -33,10 +35,29 @@ set virtualedit=onemore
 set showmatch
 "ステータスラインを常に表示する
 set laststatus=2
-"ステータスラインに閲覧中のファイルパスと文字コードと改行文字を表示する
-set statusline=%<%F\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+" ファイル名表示
+set statusline=%F
+" 変更チェック表示
+set statusline+=%m
+" 読み込み専用かどうか表示
+set statusline+=%r
+" ヘルプページなら[HELP]と表示
+set statusline+=%h
+" プレビューウインドウなら[Prevew]と表示
+set statusline+=%w
+" これ以降は右寄せ表示
+set statusline+=%=
+" file encoding
+set statusline+=[ENC=%{&fileencoding}]
+" 現在行数/全行数
+set statusline+=[LOW=%l/%L]
+" ステータスラインを常に表示(0:表示しない、1:2つ以上ウィンドウがある時だけ表示)
+set laststatus=2
 "コマンドラインの補完をする
 set wildmode=list:longest
+"Tabを可視化する
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 "シンタックスハイライトの有効化する
 syntax on
 "起動時に前回の検索文字をハイライトしない
