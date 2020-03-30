@@ -11,6 +11,8 @@ set fileencodings=utf-8,sjis,euc-jp,cp932,iso-2022-jp
 set fileformats=unix,dos,mac
 "ソースファイルの改行コードを指定する
 setl ff=unix
+"特定の文字が崩れるのを防ぐ
+set ambiwidth=double
 "バックアップファイルを作らないようにする
 set nobackup
 "スワップファイルを作らないようにする
@@ -19,10 +21,12 @@ set noswapfile
 set autoread
 "バッファが編集中でもその他のファイルを開けるようにする
 set hidden
+".viminfoファイルを作成しない
+set viminfo=
 "タイトルを表示する
 set title
 "入力中のコマンドをステータスに表示する
-set showcmd
+"set showcmd
 "行番号を表示する
 set number
 "現在の行を強調表示する
@@ -55,15 +59,8 @@ set statusline+=[LOW=%l/%L]
 set laststatus=2
 "コマンドラインの補完をする
 set wildmode=list:longest
-"Tabを可視化する
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-"シンタックスハイライトの有効化する
-syntax on
 "起動時に前回の検索文字をハイライトしない
-set viminfo+=h
-"カラースキーマ設定
-colorscheme morning
+"set viminfo+=h
 "インデントはスマートインデントにする
 set smartindent
 "Tab文字を半角スペースにする
@@ -80,28 +77,36 @@ set backspace=indent,eol,start
 set clipboard=unnamed,autoselect
 "検索がループしないようにする
 set nowrapscan
+"小文字で検索した時、大文字小文字を無視
+set ignorecase
+"大文字で検索した時、大文字小文字を無視しない
+set smartcase
+"インクリメントサーチを有効にする
+"set incsearch
 "行は折り返さないようにする
 "set nowrap
 "カーソルを行頭、行末で止まらないようにする
 set whichwrap=h,l
 "文字ないところにカーソル移動ができるようにする
 set virtualedit=block
-"カーソルの上または下に表示する最小限の行数を2とする
-set scrolloff=2
+"カーソルの上または下に表示する最小限の行数を設定する
+set scrolloff=5
 "左下に表示される挿入などの文字を表示しない
 set noshowmode
-"ステータスラインの色
-highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
 "コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
 autocmd FileType * set formatoptions-=ro
 ".viminfoの位置を固定 削除はrmコマンド
-set viminfo+=n~/.vim/.viminfo
+"set viminfo+=n~/.vim/.viminfo
 "ビープ音と画面フラッシュを止める
-set noerrorbells visualbell t_vb=
+set noerrorbells
+set visualbell t_vb=
 "標準プラグインのnetrw.vimでディレクトリをツリー表示する
 let g:netrw_liststyle=3
 "エクスプローラを開く
 nnoremap tt :Texplore <CR>
+"Tabを可視化する
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 
 "入力補完
 "ノーマルモードへ
@@ -142,10 +147,10 @@ nnoremap = A<Space>=<Space>
 set hlsearch
 "文字列のハイライト
 "検索後に該当箇所を画面中央にする
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *Nzz
-nnoremap # #Nzz
+nnoremap n nzt
+nnoremap N Nzt
+nnoremap * *Nzt
+nnoremap # #Nzt
 
 "タブページの設定
 "タブページを常に表示
@@ -170,16 +175,16 @@ map f :call ShowFuncName() <CR>
 "gtagsの設定
 "grep検索
 nnoremap <C-g> :tab sp<CR> :Gtags -g<space>
-"カーソル位置の文字列をgrep
-nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>
-"カーソル位置の関数へジャンプ
-nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>
+"カーソル位置の文字列をgrep検索
+nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>zt
+"カーソル位置の関数へタグジャンプ
+nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>zt
 "開いているファイルに定義されている関数一覧を表示
-nnoremap <C-h> :Gtags -f %<CR>
+nnoremap <C-h> :Gtags -f %<CR>zt
 "次の検索結果へジャンプする
-nnoremap <C-n> :cn<CR>
+nnoremap <C-n> :cn<CR>zt
 "前の検索結果にジャンプする
-nnoremap <C-p> :cp<CR>
+nnoremap <C-p> :cp<CR>zt
 
 "Quickfixの設定
 "Quickfixも一緒に閉じるようにする
@@ -191,6 +196,16 @@ augroup END
 
 "コンパイルスイッチ用の設定
 "マクロが定義されていて、かつ値が0orFALSEのもの
-autocmd BufEnter * match Todo /\<FIZZ\|BUZZ\>/
+autocmd BufEnter * match Error /\<FIZZ\|BUZZ\>/
 "マクロが定義されていて、TRUEになるもの
-autocmd BufEnter * 2match Underlined /\<HOGE\|FUGA\>/
+autocmd BufEnter * 2match Todo /\<HOGE\|FUGA\>/
+
+"シンタックスハイライトの有効化する
+syntax enable
+"カラースキーマ設定
+colorscheme morning
+"ステータスラインの色
+highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
+"256色に対応させる
+set t_Co=256
+
