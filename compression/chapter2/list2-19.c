@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "image.h"
+#include "bmp.h"
+#include "list2-16.h"
 
 typedef unsigned char byte;
 
-void initCoordinateData(ImageData *image, Coordinate *coordinate);
-int getNextCoordinate(ImageData *image, Coordinate *coordinate);
+//void initCoordinateData(ImageData *image, Coordinate *coordinate);
+//int getNextCoordinate(ImageData *image, Coordinate *coordinate);
 
-int decodeImage(ImageData *image, Coordinate *coordinate);
+int decodeImage(ImageData **image, FILE *fp_i);
 
 int main(int ac, char *av[]){
   FILE *fp_i;
@@ -60,7 +62,7 @@ int readHeader(char *identifier, long *width, long *height, FILE *fp_i){
 /*
   fp_iで指定されるファイルデータをランレングス符号化による圧縮結果とし、それを展開して、結果をimageに格納する
 */
-int decodeImage(ImageData **iamge_pointer, FILE *fp_i){
+int decodeImage(ImageData **image_pointer, FILE *fp_i){
   long width;
   long height;
 
@@ -80,7 +82,7 @@ int decodeImage(ImageData **iamge_pointer, FILE *fp_i){
   }
   printf("%d %d\n", width, height);
 
-  image = createImage(widht, height, 24);
+  image = createImage(width, height, 24);
   *image_pointer = image;
   initCoordinateData(image, &coordinate);
   for(;;){
@@ -89,19 +91,19 @@ int decodeImage(ImageData **iamge_pointer, FILE *fp_i){
       break;
     }
     code = fgetc(fp_i);
-    if(code = EOF){
+    if(code == EOF){
       return 0;   //エラー
     }
 
-    pixle.r = code;
-    pixle.g = code;
-    pixle.b = code;
+    pixel.r = code;
+    pixel.g = code;
+    pixel.b = code;
     for(i = 0; i < length; i++){
       if(!getNextCoordinate(image, &coordinate)){
         printf("ERROR");
         return 0;
       }
-      x = coordiante.x;
+      x = coordinate.x;
       y = coordinate.y;
       setPixel(image, x, y, &pixel);
       // fputc(code, fp_o);

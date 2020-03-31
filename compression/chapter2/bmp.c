@@ -536,6 +536,7 @@ $abort2:
   return 1;
 }
 
+/*
 void main(int ac, char *av[]){
   ImageData *image;
   int x, y;
@@ -560,3 +561,4 @@ void main(int ac, char *av[]){
   writeBMPfile("test.bmp", image);
   disposeImage(image);
 }
+*/
