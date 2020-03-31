@@ -268,7 +268,7 @@ int readBMPfile(char *filename, ImageData **image){
         goto $ABORT;
       }
       // 画像のプレーン数
-      if(!freadDWORD(&(BMPInfo.biPlanes), fp)){
+      if(!freadWORD(&(BMPInfo.biPlanes), fp)){
         errcode =- 10;
         goto $ABORT;
       }
