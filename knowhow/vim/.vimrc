@@ -37,8 +37,6 @@ set cursorcolumn
 set virtualedit=onemore
 "括弧入力時の対応する括弧を表示する
 set showmatch
-"ステータスラインを常に表示する
-set laststatus=2
 " ファイル名表示
 set statusline=%F
 " 変更チェック表示
