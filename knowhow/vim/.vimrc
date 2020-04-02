@@ -175,7 +175,7 @@ map f :call ShowFuncName() <CR>
 nnoremap <C-g> :tab sp<CR> :Gtags -g<space>
 "カーソル位置の文字列をgrep検索
 nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>zt
-"カーソル位置の関数へタグジャンプ
+"カーソル位置の関数の定義元へタグジャンプ
 nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>zt
 "開いているファイルに定義されている関数一覧を表示
 nnoremap <C-h> :Gtags -f %<CR>zt
@@ -200,10 +200,11 @@ autocmd BufEnter * 2match Todo /\<HOGE\|FUGA\>/
 
 "シンタックスハイライトの有効化する
 syntax enable
-"カラースキーマ設定
-colorscheme morning
 "ステータスラインの色
 highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
-"256色に対応させる
-set t_Co=256
 
+"カラースキーマ設定
+set background=light
+hi clear
+set t_Co=256
+colorscheme shirotelin
