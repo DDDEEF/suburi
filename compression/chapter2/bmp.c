@@ -1,9 +1,6 @@
 #include "image.h"
 
-typedef unsigned long   DWORD;
-typedef int             BOOL;
-typedef unsigned short  WORD;
-typedef unsigned long   LONG;
+#include "bmp.h"
 
 #define BI_RGB        0L
 #define BI_RLE8       1L
@@ -42,6 +39,8 @@ typedef struct tagBITMAPINFOHEADER{
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
 
 #define MAXCOLORS 256
+
+static BOOL IsWinDIB(BITMAPINFOHEADER *);
 
 // ファイルより2バイト整数を書き込む(リトルエンディアン)
 int fwriteWORD(WORD val, FILE *fp){
@@ -537,6 +536,7 @@ $abort2:
   return 1;
 }
 
+/*
 void main(int ac, char *av[]){
   ImageData *image;
   int x, y;
@@ -561,3 +561,4 @@ void main(int ac, char *av[]){
   writeBMPfile("out.bmp", image);
   disposeImage(image);
 }
+*/

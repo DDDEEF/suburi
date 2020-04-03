@@ -1,5 +1,7 @@
 #include "image.h"
 
+#include "list2-17.h"
+
 void initCoordinateData(ImageData *image, Coordinate *coordinate, int blocksize){
   coordinate->x = 0;
   coordinate->y = 0;
@@ -49,6 +51,7 @@ int getNextCoordinate(ImageData *image, Coordinate *coordinate){
   }
 }
 
+/*
 void main(int ac, char *av[]){
   ImageData *image;
   Coordinate coordinate;
@@ -70,3 +73,4 @@ void main(int ac, char *av[]){
   // 本書でのプログラムの基本形(ここまで)
   disposeImage(image);
 }
+*/

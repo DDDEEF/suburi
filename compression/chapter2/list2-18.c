@@ -2,6 +2,8 @@
 #include<stdlib.h>
 
 #include "image.h"
+#include "bmp.h"
+#include "list2-17.h"
 
 typedef unsigned char byte;
 
@@ -30,7 +32,7 @@ int main(int ac, char *av[]){
 void writeImageHeader(char *identifier, long width, long height, FILE *fp_o){
   int i;
   for(i = 0; i < 4; i++){
-    fputc(identier[i], fp_o);
+    fputc(identifier[i], fp_o);
   }
   fwriteDWORD(width, fp_o);
   fwriteDWORD(height, fp_o);
@@ -78,12 +80,12 @@ void encodeImage(FILE *fp, ImageData *image){
 
   width = image->width;
   height = image->height;
-  datasize = widht * height;
-  datas = malloc(size(byte) * datasize);
+  datasize = width * height;
+  datas = malloc(sizeof(byte) * datasize);
 
   // 画素値をバッファに取り込む
   // 座標データの初期化
-  initCoordinate(image, &coordinate, 1);
+  initCoordinateData(image, &coordinate, 1);
   // 処理対象画素がなくなるまでループする
   n = 0;  // バッファに格納すべき位置
   while(getNextCoordinate(image, &coordinate)){
