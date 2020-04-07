@@ -536,7 +536,6 @@ $abort2:
   return 1;
 }
 
-/*
 void main(int ac, char *av[]){
   ImageData *image;
   int x, y;
@@ -552,13 +551,12 @@ void main(int ac, char *av[]){
   for(y = 0; y < 100; y++){
     for(x = 0; x < 100; x++){
       if(x%2 == y%2){
-        setPixel(image, x, y, &pixel1);
-      }else{
         setPixel(image, x, y, &pixel2);
+      }else{
+        setPixel(image, x, y, &pixel1);
       }
     }
   }
-  writeBMPfile("out.bmp", image);
+  writeBMPfile("test.bmp", image);
   disposeImage(image);
 }
-*/
