@@ -37,24 +37,26 @@ set cursorcolumn
 set virtualedit=onemore
 "括弧入力時の対応する括弧を表示する
 set showmatch
-" ファイル名表示
+"ファイル名表示
 set statusline=%F
-" 変更チェック表示
+"変更チェック表示
 set statusline+=%m
-" 読み込み専用かどうか表示
+"読み込み専用かどうか表示
 set statusline+=%r
-" ヘルプページなら[HELP]と表示
+"ヘルプページなら[HELP]と表示
 set statusline+=%h
-" プレビューウインドウなら[Prevew]と表示
+"プレビューウインドウなら[Prevew]と表示
 set statusline+=%w
-" これ以降は右寄せ表示
+"これ以降は右寄せ表示
 set statusline+=%=
-" file encoding
+"file encoding
 set statusline+=[ENC=%{&fileencoding}]
-" 現在行数/全行数
+"現在行数/全行数
 set statusline+=[LOW=%l/%L]
-" ステータスラインを常に表示(0:表示しない、1:2つ以上ウィンドウがある時だけ表示)
+"ステータスラインを常に表示(0:表示しない、1:2つ以上ウィンドウがある時だけ表示)
 set laststatus=2
+"メッセージ表示欄を2行確保
+set cmdheight=2
 "コマンドラインの補完をする
 set wildmode=list:longest
 "起動時に前回の検索文字をハイライトしない
@@ -103,8 +105,8 @@ let g:netrw_liststyle=3
 "エクスプローラを開く
 nnoremap tt :Texplore <CR>
 "Tabを可視化する
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+"set list
+"set listchars=
 
 "入力補完
 "ノーマルモードへ
@@ -200,11 +202,59 @@ autocmd BufEnter * 2match Todo /\<HOGE\|FUGA\>/
 
 "シンタックスハイライトの有効化する
 syntax enable
-"ステータスラインの色
-highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
-
-"カラースキーマ設定
+"カラーの設定
 set background=light
 hi clear
 set t_Co=256
-colorscheme shirotelin
+
+"ステータスラインの色
+hi StatusLine term=NONE cterm=NONE ctermfg=black ctermbg=white
+
+"通常文字
+hi Normal term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE
+
+"特殊文字
+hi Special term=bold cterm=bold ctermfg=127
+
+"コメント
+hi Comment term=NONE cterm=NONE ctermfg=27
+
+hi Constant term=bold cterm=bold ctermfg=red
+hi String term=NONE cterm=NONE ctermfg=red
+hi Character term=NONE cterm=NONE ctermfg=red
+hi Number term=NONE cterm=NONE ctermfg=red
+hi Boolean term=NONE cterm=bold ctermfg=red
+hi Float term=NONE cterm=NONE ctermfg=red
+
+hi Identifier term=bold cterm=bold ctermfg=17
+hi Function term=bold cterm=bold ctermfg=17
+
+hi Statement term=bold cterm=bold ctermfg=89
+hi Conditional term=bold cterm=bold ctermfg=89
+hi Repeat term=bold cterm=bold ctermfg=89
+hi Label term=bold cterm=bold ctermfg=89
+hi Operator term=bold cterm=bold ctermfg=89
+hi Keyword term=bold cterm=bold ctermfg=89
+hi Exception term=bold cterm=bold ctermfg=89
+
+hi PreProc term=NONE cterm=NONE ctermfg=127
+hi Include term=NONE cterm=NONE ctermfg=127
+hi Define term=NONE cterm=NONE ctermfg=127
+hi Macro term=NONE cterm=NONE ctermfg=127
+hi PreCondit term=NONE cterm=NONE ctermfg=127
+
+hi Type term=NONE cterm=NONE ctermfg=127
+hi StorageClass term=NONE cterm=NONE ctermfg=127
+hi Structure term=NONE cterm=NONE ctermfg=127
+hi Typedef term=NONE cterm=NONE ctermfg=127
+
+"行
+hi LineNr term=NONE cterm=NONE ctermfg=27
+hi CursorLineNr term=NONE cterm=NONE ctermfg=27
+
+"タブバー
+hi TabLineFill ctermfg=black
+hi TabLine ctermfg=white ctermbg=black
+hi TabLineSel term=NONE cterm=NONE ctermfg=black ctermbg=white
+
+hi clear SignColumn
