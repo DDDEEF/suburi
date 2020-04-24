@@ -37,3 +37,13 @@ $ vagrant halt
 $ vim Vagrantfile
 config.vm.network "private_network", ip: "192.168.10.2"
 ```
+
+### ◾️現状確認
+```
+$ vagrant status
+```
+
+### ◾️再起動
+```
+$ vagrant reload
+```
