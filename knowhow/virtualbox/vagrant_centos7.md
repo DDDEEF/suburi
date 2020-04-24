@@ -32,7 +32,7 @@ $ vagrant ssh
 $ vagrant halt
 ```
 
-### ◾️vagrantファイルに設定を追加
+### ◾️Vagrantファイルの35行のコメントアウトを削除
 ```
 $ vim Vagrantfile
 config.vm.network "private_network", ip: "192.168.10.2"
