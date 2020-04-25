@@ -222,6 +222,8 @@ $ sudo chown root:root /usr/local/bin/chromedriver
 $ chromedriver -v
 ```
 ドライバのバージョンが完全に一致するものがないときはできるだけリリースナンバーの近いものを持ってくる。
+対応表
+https://qiita.com/sakuraya/items/8d415e154ce60a83d63d
 
 ### ◾️seleniumのテスト
 ```
