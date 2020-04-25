@@ -47,3 +47,14 @@ $ vagrant status
 ```
 $ vagrant reload
 ```
+
+### ◾️Vagrantで作成したVM環境にパスワード認証でsshログインする
+"PasswordAuthentication no"を"yes"に変更
+```
+$ sudo vim /etc/ssh/sshd_config
+PasswordAuthentication yes
+```
+sshdのrestart
+```
+$ sudo systemctl restart sshd
+```
