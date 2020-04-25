@@ -81,6 +81,11 @@ $ sudo yum install gdb
 ```
 $ sudo yum install ncurses-devel.x86_64 
 ```
+### zip,unzipをインストール
+```
+$ sudo yum install zip
+$ sudo yum install unzip
+```
 
 ### vimのためのctagsをインストール
 ```
