@@ -225,6 +225,12 @@ $ chromedriver -v
 対応表
 https://qiita.com/sakuraya/items/8d415e154ce60a83d63d
 
+#### 日本語フォントのインストール
+ブラウザ画面のスクリーンショットで文字化けするのでCentOSに日本語フォントのインストールをしておく
+```
+$ sudo yum install ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts
+```
+
 ### ◾️seleniumのテスト
 ```
 require 'selenium-webdriver'
