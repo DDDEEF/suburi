@@ -27,3 +27,11 @@ export PATH="$PATH:/home/username/bin"  //環境変数に追加
 $ source ~/.bash_profile 
 $ printenv //環境変数を表示して確認 
 ```
+### Gtags小技
+#### grep対象を絞りたい時
+```
+$ cd project
+$ cd project/module
+$ vim .
+$ :Gtags -g -l write // moduleディレクトリに潜って、vimを起動し、writeを検索
+```
