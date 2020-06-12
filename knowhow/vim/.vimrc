@@ -174,7 +174,7 @@ map f :call ShowFuncName() <CR>
 
 "gtagsの設定
 "grep検索
-nnoremap <C-g> :tab sp<CR> :Gtags -g<space>
+nnoremap <C-g> :tab sp<CR> :Gtags -g<space>-l<space>
 "カーソル位置の文字列をgrep検索
 nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>zt
 "カーソル位置の関数の定義元へタグジャンプ
