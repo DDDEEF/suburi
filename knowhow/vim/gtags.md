@@ -35,3 +35,5 @@ $ cd project/module
 $ vim .
 $ :Gtags -g -l write // moduleディレクトリに潜って、vimを起動し、writeを検索
 ```
+参考
+https://www.tamacom.com/handbook/column.html
