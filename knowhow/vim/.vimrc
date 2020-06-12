@@ -176,7 +176,7 @@ map f :call ShowFuncName() <CR>
 "grep検索
 nnoremap <C-g> :tab sp<CR> :Gtags -g<space>-l<space>
 "カーソル位置の文字列をgrep検索
-nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g '.expand('<cword>'))<CR>zt
+nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g -l '.expand('<cword>'))<CR>zt
 "カーソル位置の関数の定義元へタグジャンプ
 nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>zt
 "開いているファイルに定義されている関数一覧を表示
