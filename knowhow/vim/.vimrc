@@ -107,6 +107,8 @@ nnoremap tt :Texplore <CR>
 "Tabを可視化する
 "set list
 "set listchars=
+"新規タブを新規ファイル名で開く
+nnoremap <C-1> :tabe
 
 "入力補完
 "ノーマルモードへ
@@ -160,6 +162,18 @@ nnoremap s :tab sp<CR>
 "タブページの移動
 nnoremap . gt
 nnoremap , gT
+
+"分割の設定
+"横に分割
+nnoremap ~ :sp<CR> <C-w>w <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+
+"close
+nnoremap c :close<CR>
+"移動
+nnoremap w <C-w>w
+"上に拡大
+nnoremap + <C-w>+
+"下に拡大
+nnoremap - <C-w>-
 
 "現在の関数名を表示
 fun! ShowFuncName()
