@@ -22,3 +22,8 @@ $ wget --http-user=aaa --http-passwd=bbb -H -r -np -R zip http://aiueo.co.jp/sha
 ```
 $ find ./ -type f -name "*.html" -delete
 ```
+
+## ディレクトリ以下のファイルをコピーする方法
+```
+$ cp -r コピー元ディレクトリ コピー先ディレクトリ
+```
