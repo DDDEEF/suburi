@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define NOT_RUN 1   //同じ値が連続していない部分を示す
+#define RUN 0       //同じ値が連続している部分を示す
 #define BUFFER_SIZE 102400
 
 typedef unsigned char byte;
