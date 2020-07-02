@@ -1,4 +1,7 @@
-#include "main.h"
+/* 利用ファイルのヘッダ */
+
+/* 自ファイルのヘッダ */
+#include "comp_method.h"
 
 typedef struct{
   int bdata;
@@ -8,11 +11,11 @@ typedef struct{
 /* 符号化して結果をファイルに出力する */
 
 /* list1-1 方法A */
-int getRunLengthStd(comp_t *compPtr, int x, int *run, int *code){
+static int getRunLengthStd(comp_t *compPtr, int x, int *run, int *code){
   int limit;
   int processingPoint;
 
-  limit = 0xff
+  limit = 0xff;
   processingPoint = x;
   *run = 1;
   *code = (compPtr->data)[processingPoint];
@@ -39,7 +42,7 @@ void compRunLengthStd(comp_t *compPtr){
 }
 
 /* list1-2 方法B */
-int getRunLength1ByteSign(comp_t *compPtr, int x, int *run, int *code){
+static int getRunLength1ByteSign(comp_t *compPtr, int x, int *run, int *code){
   int limit;
   int processingPoint;
 
@@ -86,7 +89,7 @@ void compRunLength1ByteSign(comp_t *compPtr){
 }
 
 /* list1-3 方法C */
-int getRunLengthHead1BitSign(comp_t *compPtr, int x, int *run, int *code){
+static int getRunLengthHead1BitSign(comp_t *compPtr, int x, int *run, int *code){
   int limit;
   int processingPoint;
 
@@ -95,7 +98,7 @@ int getRunLengthHead1BitSign(comp_t *compPtr, int x, int *run, int *code){
   *run = 1;
   *code = (compPtr->data)[processingPoint];
   processingPoint++;
-  while(processingPoint < datasize && *code == (compPtr->data)[processingPoint] && *run < limit){
+  while(processingPoint < compPtr->size && *code == (compPtr->data)[processingPoint] && *run < limit){
     processingPoint++;
     (*run)++;
   }
@@ -127,26 +130,26 @@ void compRunLengthHead1BitSign(comp_t *compPtr){
 /* list1-4 方法D ワイル符号化 */
 
 /* long型(4バイト)の値をファイルに出力する */
-void fputLong(long num, FILE *fp){
+static void fputLong(long num, FILE *fp){
   fputc((num << 24) & 0xff, fp);
   fputc((num << 16) & 0xff, fp);
   fputc((num << 8)  & 0xff, fp);
   fputc((num)       & 0xff, fp);
 }
 
-int absi(int x){
+static int absi(int x){
   if(x < 0){
     return -x;
   }
   return x;
 }
 
-void fputBitInit(wyle_t *wylePtr){
+static void fputBitInit(wyle_t *wylePtr){
   wylePtr->bdata = 0;
   wylePtr->bits = 0;
 }
 
-void fputBit(int bit, wyle_t *wylePtr, FILE *fp){
+static void fputBit(int bit, wyle_t *wylePtr, FILE *fp){
   wylePtr->bdata = (wylePtr->bdata << 1) | bit;
   wylePtr->bits++;
   if(wylePtr->bits >= 8){
@@ -156,7 +159,7 @@ void fputBit(int bit, wyle_t *wylePtr, FILE *fp){
   }
 }
 
-void flushBit(wyle_t *wylePtr, FILE *fp){
+static void flushBit(wyle_t *wylePtr, FILE *fp){
   int i;
 
   for(i = 0; i < 7; i++){
@@ -164,7 +167,7 @@ void flushBit(wyle_t *wylePtr, FILE *fp){
   }
 }
 
-int putBits(int data, int n, wyle_t *wylePtr, FILE *fp){
+static int putBits(int data, int n, wyle_t *wylePtr, FILE *fp){
   int i;
 
   for(i = n - 1; i >= 0; i--){
@@ -172,7 +175,7 @@ int putBits(int data, int n, wyle_t *wylePtr, FILE *fp){
   }
 }
 
-int getLengthForWyle(int x){
+static int getLengthForWyle(int x){
   int len;
 
   x /= 4;
@@ -184,7 +187,7 @@ int getLengthForWyle(int x){
   return len;
 }
 
-void outputWyleCode(int value, wyle_t *wylePtr, FILE *fp){
+static void outputWyleCode(int value, wyle_t *wylePtr, FILE *fp){
   int switchflag;
   int abs;
   int length;
@@ -197,7 +200,7 @@ void outputWyleCode(int value, wyle_t *wylePtr, FILE *fp){
   for(i = 0; i < length; i++){
     fputBit(switchflag, wylePtr, fp);
   }
-  fputBit(1-s, wylePtr, fp);
+  fputBit(1-switchflag, wylePtr, fp);
   length += 2;
   for(i = 0; i < length; i++){
     fputBit(abs & 1, wylePtr, fp);
@@ -205,7 +208,7 @@ void outputWyleCode(int value, wyle_t *wylePtr, FILE *fp){
   }
 }
 
-int getRunLengthWyleCoding(comp_t *compPtr, int x, int *run, int *code){
+static int getRunLengthWyleCoding(comp_t *compPtr, int x, int *run, int *code){
   int limit;
   int processingPoint;
 
@@ -231,7 +234,7 @@ void compWyleCoding(comp_t *compPtr){
   processingPoint = 0;
   fputBitInit(&wyleParams);
   while(processingPoint < compPtr->size){
-    processingPoint = getRunLengthWyleCoding(compPtr->data, processingPoint, &run, &code);
+    processingPoint = getRunLengthWyleCoding(compPtr, processingPoint, &run, &code);
     outputWyleCode(run, &wyleParams, compPtr->fp);
     putBits(code, 8, &wyleParams, compPtr->fp);
   }
@@ -239,7 +242,7 @@ void compWyleCoding(comp_t *compPtr){
 }
 
 /* list1-5 方法E PackBits */
-void getPackBits(comp_t *compPtr, int point, int *packBitMode, int *length){
+static void getPackBits(comp_t *compPtr, int point, int *packBitMode, int *length){
   if(point >= compPtr->size - 1){   //1バイトだけ残っているパターン
     *packBitMode = NOT_RUN;
     *length = 1;
@@ -279,7 +282,7 @@ void getPackBits(comp_t *compPtr, int point, int *packBitMode, int *length){
   }
 }
 
-void outputPackBitsCodeStd(comp_t *compPtr, int mode, int length, int point){
+static void outputPackBitsCodeStd(comp_t *compPtr, int mode, int length, int point){
   int i;
 
   if(mode == RUN){
@@ -315,7 +318,7 @@ void compPackBitsStd(comp_t *compPtr){
 }
 
 /* list1-6 方法F PackBist */
-void outputPackBitsCodeSW(comp_t *compPtr, int mode, int length, int point){
+static void outputPackBitsCodeSW(comp_t *compPtr, int mode, int length, int point){
   int i;
 
   fputc(length, compPtr->fp);
