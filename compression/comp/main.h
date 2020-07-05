@@ -13,7 +13,8 @@
 typedef unsigned char byte;
 
 typedef struct{
-  FILE *fp;
+  FILE *fp_o;
+  FILE *fp_i;
   byte *data;
   int size;
   char event;
