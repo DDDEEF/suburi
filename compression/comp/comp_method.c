@@ -65,7 +65,7 @@ void compRunLength1ByteSign(comp_t *compPtr){
   int processingPoint;
   int runlengthFlag;
 
-  runlengthFlag = 0xff;
+  runlengthFlag = RUNLENGTH_FLAG;
 
   processingPoint = 0;
   while(processingPoint < compPtr->size){
