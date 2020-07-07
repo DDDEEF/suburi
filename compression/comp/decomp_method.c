@@ -108,8 +108,98 @@ int decompRunLengthHead1BitSign(comp_t *paramsPtr){
 }
 
 /* list1-10 方法D */
+int readData(unsigned char *data, int length, FILE *fp){
+  return fread(data, length, sizeof(char), fp);
+}
+
+int fgetLong(FILE *fp){
+  unsigned char buf[16];
+
+  readData(buf, 4, fp);
+  return (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
+}
+
+int fgetBitInit(wyle_t *wylePtr){
+  wylePtr->bits = 0;
+  wylePtr->bdata = 0;
+}
+
+int fgetBit(FILE *fp, wyle_t *wylePtr){
+  unsigned char bbuf;
+  unsigned char buf[16];
+  int val;
+
+  if(wylePtr->bits == 0){
+    readData(&bbuf, 1, fp);
+    wylePtr->bdata = bbuf;
+  }
+  val = (wylePtr->bdata >> 7) & 1;
+  wylePtr->bdata = (wylePtr->bdata << 1) & 0xff;
+  wylePtr->bits++;
+  if(wylePtr->bits >= 8){
+    wylePtr->bits = 0;
+    wylePtr->bdata = 0;
+  }
+
+  return val;
+}
+
+int freadWyleCode(FILE *fp, wyle_t *wyleptr){
+  int sbit;
+  int bit;
+  int i;
+  int cnt;
+  int val;
+
+  cnt = 0;
+  while(fgetBit(fp, wylePtr) == 1){
+    cnt++;
+  }
+  cnt += 2;
+  val = 0;
+  for(i = 0; i < cnt; i++){
+    bit = fgetBit(fp, wylePtr) << i;
+    val |= bit;
+  }
+
+  return val + 1;
+}
+
+int fgetBits(int n, FILE *fp, wyle_t *wylePtr){
+  int i;
+  int answer;
+
+  answer = 0;
+
+  for(i = 0; i < n; i++){
+    answer *= 2;
+    answer += fgetBit(fp, wylePtr);
+  }
+
+  return answer;
+}
+
 int decompWyleCoding(comp_t *paramsPtr){
- 
+  int i;
+  int point;
+  int datasize;
+  int code;
+  int length;
+  wyle_t wyleParams;
+
+  datasize = fgetLong(paramsPtr->fp_i);
+  point = 0;
+  fgetBitInit(&wyleParams);
+  while(point < datasize){
+    length = freadWyleCode(paramsPtr->fp_i, &wyleParams);
+
+    code = fgetBits(8, paramsPtr->fp_i, &wyleParams);
+    for(i = 0; i < length; i++){
+      fputc(code, paramsPtr->fp_o);
+    }
+    point += length;
+  }
+  return 1;
 }
 
 /* list1-11 方法E */

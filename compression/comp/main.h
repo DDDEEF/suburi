@@ -20,6 +20,11 @@ typedef struct{
   char event;
 }comp_t;
 
+typedef struct{
+  int bdata;
+  int bits;
+}wyle_t;
+
 typedef enum{
   NOT_SELECT_RUNLENGTH,
   RUNLENGTH_STD,

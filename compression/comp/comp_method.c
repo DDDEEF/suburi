@@ -3,11 +3,6 @@
 /* 自ファイルのヘッダ */
 #include "comp_method.h"
 
-typedef struct{
-  int bdata;
-  int bits;
-}wyle_t;
-
 /* 符号化して結果をファイルに出力する */
 
 /* list1-1 方法A */
@@ -129,11 +124,11 @@ void compRunLengthHead1BitSign(comp_t *compPtr){
 
 /* list1-4 方法D ワイル符号化 */
 
-/* long型(4バイト)の値をファイルに出力する */
+/* long型(4バイト)の値をファイルに出力する シフト演算子によってnumは強制的に4バイトになる */
 static void fputLong(long num, FILE *fp){
-  fputc((num << 24) & 0xff, fp);
-  fputc((num << 16) & 0xff, fp);
-  fputc((num << 8)  & 0xff, fp);
+  fputc((num >> 24) & 0xff, fp);
+  fputc((num >> 16) & 0xff, fp);
+  fputc((num >> 8)  & 0xff, fp);
   fputc((num)       & 0xff, fp);
 }
 
