@@ -335,7 +335,7 @@ void compPackBitsSwitch(comp_t *compPtr){
   int previousMode;
   int maxlength;
 
-  previousMode = 1;
+  previousMode = NOT_RUN;
   maxlength = 255;
 
   point = 0;

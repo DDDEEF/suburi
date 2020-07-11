@@ -204,10 +204,71 @@ int decompWyleCoding(comp_t *paramsPtr){
 
 /* list1-11 方法E */
 int decompPackBitsStd(comp_t *paramsPtr){
-  
+  int i;
+  int code;
+  int length;
+
+  while((length = fgetc(paramsPtr->fp_i)) != EOF){
+    if(length > 128){ 
+      /*int lengthが129(1000 0001)の場合 maxlengthは127だがNOT RUNは負数になっているので 実態は127(0111 1111)*/
+      /* プラスの値をマイナスの値にする元々の流れ */
+      /* 1. 127 0111 1111 intの世界では129 */
+      /* 2.     1000 0000 */
+      /* 3.     1000 0001 で -127 でlengthとなる*/
+      /* 256 - length(129) = 127  */
+      length = 256 - length;
+      for(i = 0; i < length; i++){
+        code = fgetc(paramsPtr->fp_i);
+        if(code == EOF){
+          return 0; //エラー
+        }
+        fputc(code, paramsPtr->fp_o);
+      }
+    }else{
+      /* lengthが127(0111 1111)の場合 */
+      code = fgetc(paramsPtr->fp_i);
+      if(code == EOF){
+        return 0;
+      }
+      for(i = 0; i < length; i++){
+        fputc(code, paramsPtr->fp_o);
+      }
+    }
+  }
+  return 1;
 }
 
 /* list1-12 方法F */
 int decompPackBitsSwitch(comp_t *paramsPtr){
-  
+  int i;
+  int code;
+  int packBitsMode;
+  int length;
+
+  packBitsMode = RUN;
+
+  while((length = fgetc(paramsPtr->fp_i)) != EOF){
+    if(length > 0){
+      if(packBitsMode == NOT_RUN){
+        for(i = 0; i < length; i++){
+          code = fgetc(paramsPtr->fp_i);
+          if(code == EOF){
+            return 0; //エラー
+          }
+          fputc(code, paramsPtr->fp_o);
+        }
+      }else{
+        code = fgetc(paramsPtr->fp_i);
+        if(code == EOF){
+          return 0; //エラー
+        }
+        for(i = 0; i < length; i++){
+          fputc(code, paramsPtr->fp_o);
+        }
+      }
+    }
+    /* 原則 NOT_RUN,RUN を交互に繰り返すが、RUNが続くときは0を間に挟むことでpackBitsModeが0を挟む前と同じになる */
+    packBitsMode = 1 - packBitsMode;
+  }
+  return 1;
 }
