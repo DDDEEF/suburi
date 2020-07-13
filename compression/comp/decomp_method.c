@@ -108,23 +108,23 @@ int decompRunLengthHead1BitSign(comp_t *paramsPtr){
 }
 
 /* list1-10 方法D */
-int readData(unsigned char *data, int length, FILE *fp){
+static int readData(unsigned char *data, int length, FILE *fp){
   return fread(data, length, sizeof(char), fp);
 }
 
-int fgetLong(FILE *fp){
+static int fgetLong(FILE *fp){
   unsigned char buf[16];
 
   readData(buf, 4, fp);
   return (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
 }
 
-int fgetBitInit(wyle_t *wylePtr){
+static int fgetBitInit(wyle_t *wylePtr){
   wylePtr->bits = 0;
   wylePtr->bdata = 0;
 }
 
-int fgetBit(FILE *fp, wyle_t *wylePtr){
+static int fgetBit(FILE *fp, wyle_t *wylePtr){
   unsigned char bbuf;
   unsigned char buf[16];
   int val;
@@ -144,7 +144,7 @@ int fgetBit(FILE *fp, wyle_t *wylePtr){
   return val;
 }
 
-int freadWyleCode(FILE *fp, wyle_t *wyleptr){
+static int freadWyleCode(FILE *fp, wyle_t *wyleptr){
   int sbit;
   int bit;
   int i;
@@ -165,7 +165,7 @@ int freadWyleCode(FILE *fp, wyle_t *wyleptr){
   return val + 1;
 }
 
-int fgetBits(int n, FILE *fp, wyle_t *wylePtr){
+static int fgetBits(int n, FILE *fp, wyle_t *wylePtr){
   int i;
   int answer;
 

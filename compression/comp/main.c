@@ -1,5 +1,6 @@
 /* 利用ファイルのヘッダ */
 #include "comp_method.h"
+#include "decomp_method.h"
 
 /* 時ファイルのヘッダ */
 #include "main.h"
@@ -102,7 +103,8 @@ static void selectCompMethod(comp_t *paramsPtr){
 }
 
 static void releaseCompParams(comp_t *compPtr){
-  compPtr->fp = NULL; 
+  compPtr->fp_i = NULL; 
+  compPtr->fp_o = NULL;
   compPtr->data = NULL;
   compPtr->size = 0;
   compPtr->event = NOT_SELECT_RUNLENGTH;

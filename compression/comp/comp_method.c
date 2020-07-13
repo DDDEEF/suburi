@@ -31,8 +31,8 @@ void compRunLengthStd(comp_t *compPtr){
 
   while(processingPoint < compPtr->size){
     processingPoint = getRunLengthStd(compPtr, processingPoint, &run, &code);
-    fputc(run, compPtr->fp);
-    fputc(code, compPtr->fp);
+    fputc(run, compPtr->fp_o);
+    fputc(code, compPtr->fp_o);
   }
 }
 
@@ -68,17 +68,17 @@ void compRunLength1ByteSign(comp_t *compPtr){
     if(run <= 2){
       if(code != runlengthFlag){
         for(i = 0; i < run; i++){
-          fputc(code, compPtr->fp);
+          fputc(code, compPtr->fp_o);
         }
       }else{
-        fputc(runlengthFlag, compPtr->fp);
-        fputc(run, compPtr->fp);
-        fputc(code, compPtr->fp);
+        fputc(runlengthFlag, compPtr->fp_o);
+        fputc(run, compPtr->fp_o);
+        fputc(code, compPtr->fp_o);
       }
     }else{
-      fputc(runlengthFlag, compPtr->fp);
-      fputc(run, compPtr->fp);
-      fputc(code, compPtr->fp);
+      fputc(runlengthFlag, compPtr->fp_o);
+      fputc(run, compPtr->fp_o);
+      fputc(code, compPtr->fp_o);
     }
   }
 }
@@ -110,14 +110,14 @@ void compRunLengthHead1BitSign(comp_t *compPtr){
     processingPoint = getRunLengthHead1BitSign(compPtr, processingPoint, &run, &code);
     if(run < 2){
       if(code < 0x80){
-        fputc(code, compPtr->fp);
+        fputc(code, compPtr->fp_o);
       }else{
-        fputc(0x81, compPtr->fp);
-        fputc(code, compPtr->fp);
+        fputc(0x81, compPtr->fp_o);
+        fputc(code, compPtr->fp_o);
       }
     }else{
-      fputc(run|0x80, compPtr->fp);
-      fputc(code, compPtr->fp);
+      fputc(run|0x80, compPtr->fp_o);
+      fputc(code, compPtr->fp_o);
     }
   }
 }
@@ -225,15 +225,15 @@ void compWyleCoding(comp_t *compPtr){
   int processingPoint;
   wyle_t wyleParams;  
 
-  fputLong(compPtr->size, compPtr->fp);
+  fputLong(compPtr->size, compPtr->fp_o);
   processingPoint = 0;
   fputBitInit(&wyleParams);
   while(processingPoint < compPtr->size){
     processingPoint = getRunLengthWyleCoding(compPtr, processingPoint, &run, &code);
-    outputWyleCode(run, &wyleParams, compPtr->fp);
-    putBits(code, 8, &wyleParams, compPtr->fp);
+    outputWyleCode(run, &wyleParams, compPtr->fp_o);
+    putBits(code, 8, &wyleParams, compPtr->fp_o);
   }
-  flushBit(&wyleParams, compPtr->fp);
+  flushBit(&wyleParams, compPtr->fp_o);
 }
 
 /* list1-5 方法E PackBits */
@@ -281,12 +281,12 @@ static void outputPackBitsCodeStd(comp_t *compPtr, int mode, int length, int poi
   int i;
 
   if(mode == RUN){
-    fputc(length, compPtr->fp);
-    fputc((compPtr->data)[point], compPtr->fp);
+    fputc(length, compPtr->fp_o);
+    fputc((compPtr->data)[point], compPtr->fp_o);
   }else{
-    fputc(-length, compPtr->fp);
+    fputc(-length, compPtr->fp_o);
     for(i = 0; i < length; i++){
-      fputc((compPtr->data)[point + i], compPtr->fp);
+      fputc((compPtr->data)[point + i], compPtr->fp_o);
     }
   }
 }
@@ -316,13 +316,13 @@ void compPackBitsStd(comp_t *compPtr){
 static void outputPackBitsCodeSW(comp_t *compPtr, int mode, int length, int point){
   int i;
 
-  fputc(length, compPtr->fp);
+  fputc(length, compPtr->fp_o);
   if(length > 0){
     if(mode == RUN){
-      fputc((compPtr->data)[point], compPtr->fp);
+      fputc((compPtr->data)[point], compPtr->fp_o);
     }else{
       for(i = 0; i < length; i++){
-        fputc((compPtr->data)[point + i], compPtr->fp);
+        fputc((compPtr->data)[point + i], compPtr->fp_o);
       }
     }
   }
