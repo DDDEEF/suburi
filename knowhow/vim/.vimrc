@@ -152,22 +152,9 @@ nnoremap # #Nzt
 "タブページの設定
 "タブページを常に表示
 set showtabline=2
-"タブページの複製
-nnoremap tabclone :tab sp<CR>
 "タブページの移動
 nnoremap . gt
 nnoremap , gT
-
-"現在の関数名を表示
-fun! ShowFuncName()
-  let lnum = line(".")
-  let col = col(".")
-  echohl ModeMsg
-  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
-  echohl None
-  call search("\\%" . lnum . "l" . "\\%" . col . "c")
-endfun
-map f :call ShowFuncName() <CR>
 
 "quickhlvim設定
 "カーソル上の文字ハイライト
