@@ -109,3 +109,16 @@ static void releaseCompParams(comp_t *compPtr){
   compPtr->size = 0;
   compPtr->event = NOT_SELECT_RUNLENGTH;
 }
+
+void *comp_thread(){
+  
+}
+
+void *decomp_thread(){
+  
+}
+
+int main(void){
+  pthread_t pthread;
+}
+
