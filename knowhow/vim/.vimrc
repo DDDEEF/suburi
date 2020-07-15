@@ -104,11 +104,6 @@ set visualbell t_vb=
 let g:netrw_liststyle=3
 "エクスプローラを開く
 nnoremap tt :Texplore <CR>
-"Tabを可視化する
-"set list
-"set listchars=
-"新規タブを新規ファイル名で開く
-nnoremap <C-1> :tabe
 
 "入力補完
 "ノーマルモードへ
@@ -158,22 +153,10 @@ nnoremap # #Nzt
 "タブページを常に表示
 set showtabline=2
 "タブページの複製
-nnoremap s :tab sp<CR>
+nnoremap tabclone :tab sp<CR>
 "タブページの移動
 nnoremap . gt
 nnoremap , gT
-
-"分割の設定
-"横に分割
-nnoremap ~ :sp<CR> <C-w>w <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+ <C-w>+
-"close
-nnoremap c :close<CR>
-"移動
-nnoremap w <C-w>w
-"上に拡大
-nnoremap + <C-w>+
-"下に拡大
-nnoremap - <C-w>-
 
 "現在の関数名を表示
 fun! ShowFuncName()
@@ -185,6 +168,16 @@ fun! ShowFuncName()
   call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfun
 map f :call ShowFuncName() <CR>
+
+"quickhlvim設定
+"カーソル上の文字ハイライト
+nmap <Space>m <Plug>(quickhl-manual-this)
+xmap <Space>m <Plug>(quickhl-manual-this)
+"カーソル上の単語ハイライト
+nmap <Space>w <Plug>(quickhl-manual-this-whole-word)
+xmap <Space>w <Plug>(quickhl-manual-this-whole-word)
+"トグルモード
+nmap <Space>j <Plug>(quickhl-cword-toggle)
 
 "gtagsの設定
 "grep検索
