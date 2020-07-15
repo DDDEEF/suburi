@@ -1,5 +1,5 @@
-#ifndef DECOMP_METHOD_H
-#define DECOMP_METHOD_H
+#ifndef DECOMP_FUNC_H
+#define DECOMP_FUNC_H
 
 #include "main.h"
 
@@ -10,5 +10,4 @@ extern int decompWyleCoding(comp_t*);
 extern int decompPackBitsStd(comp_t*);
 extern int decompPackBitsSwitch(comp_t*);
 
-#endif /* DECOMP_METHOD_H */_
-
+#endif /* DECOMP_FUNC_H */

@@ -1,27 +1,9 @@
-static void selectDecompMethod(comp_t *paramsPtr){
-  switch(paramsPtr->event){
-    case RUNLENGTH_STD:
-      decompRunLengthStd(paramsPtr);
-      break;
-    case RUNLENGTH_1BYTE_SIGN:
-      decompRunLength1ByteSign(paramsPtr);
-      break;
-    case RUNLENGTH_HEAD1BIT_SIGN:
-      decompRunLengthHead1BitSign(paramsPtr);
-      break;
-    case WYLE_CODING:
-      decompWyleCoding(paramsPtr);
-      break;
-    case PACKBITS_STD:
-      decompPackBitsStd(paramsPtr);
-      break;
-    case PACKBITS_SWITCH:
-      decompPackBitsSwitch(paramsPtr);
-      break;
-    default:
-      break;
-  }
-}
+/* 利用ファイルのヘッダ */
+
+/* 自ファイルのヘッダ */
+#include "decomp_func.h"
+
+/* 圧縮したファイルの伸張をしてからファイルに出力する */
 
 /* list1-7 方法A */
 int decompRunLengthStd(comp_t *paramsPtr){
@@ -49,6 +31,7 @@ int decompRunLengthStd(comp_t *paramsPtr){
 int decompRunLength1ByteSign(comp_t *paramsPtr){
   int i;
   int length;
+  int code;
   int value;
   int runlengthFlag;
 
@@ -93,7 +76,7 @@ int decompRunLengthHead1BitSign(comp_t *paramsPtr){
     }
     if(value >= 0x80){
       length = value & 0x7f;
-      code = fgetc(fp_i);
+      code = fgetc(paramsPtr->fp_i);
       if(code == EOF){
         return 0; //エラー
       }
@@ -144,7 +127,7 @@ static int fgetBit(FILE *fp, wyle_t *wylePtr){
   return val;
 }
 
-static int freadWyleCode(FILE *fp, wyle_t *wyleptr){
+static int freadWyleCode(FILE *fp, wyle_t *wylePtr){
   int sbit;
   int bit;
   int i;

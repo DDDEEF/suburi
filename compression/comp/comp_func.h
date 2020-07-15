@@ -1,5 +1,5 @@
-#ifndef COMP_METHOD_H
-#define COMP_METHOD_H
+#ifndef COMP_FUNC_H
+#define COMP_FUNC_H
 
 #include "main.h"
 
@@ -10,4 +10,4 @@ extern void compWyleCoding(comp_t*);
 extern void compPackBitsStd(comp_t*);
 extern void compPackBitsSwitch(comp_t*);
 
-#endif /* COMP_METHOD_H */
+#endif /* COMP_FUNC_H */

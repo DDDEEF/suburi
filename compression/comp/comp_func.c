@@ -1,9 +1,9 @@
 /* 利用ファイルのヘッダ */
 
 /* 自ファイルのヘッダ */
-#include "comp_method.h"
+#include "comp_func.h"
 
-/* 符号化して結果をファイルに出力する */
+/* 圧縮してファイルに出力する */
 
 /* list1-1 方法A */
 static int getRunLengthStd(comp_t *compPtr, int x, int *run, int *code){

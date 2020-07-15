@@ -1,16 +1,17 @@
 /* 利用ファイルのヘッダ */
-#include "comp_method.h"
-#include "decomp_method.h"
+#include "comp_func.h"
+#include "decomp_func.h"
 
 /* 時ファイルのヘッダ */
 #include "main.h"
 
 static void printMenu(void);
-static void selectCompMethod(comp_t*);
+static void selectCompFunc(comp_t*);
+static void selectDecompFunc(comp_t*);
 static void releaseCompParams(comp_t*);
 
 int main(void){
-  char input[] = "/home/vagrant/projects/suburi/compression/comp/test.jpg";
+  char input[] = "/home/vagrant/projects/suburi/compression/comp/bin.bin";
   char output[] = "/home/vagrant/projects/suburi/compression/comp/result";
   FILE *fp_i;
   FILE *fp_o;
@@ -20,6 +21,22 @@ int main(void){
   int val;
   char str[8];
   comp_t compParams;
+
+  printf("モードを選択してください。\n");
+  printf("[1]圧縮モード\n");
+  printf("[2]伸張モード\n");
+  printf("[3]データベースを見る\n");
+
+  switch(mode){
+    case 1:
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    defalt:
+      break;  
+  }
 
   printMenu();
 
@@ -52,14 +69,14 @@ int main(void){
       exit(8);
     }
 
-    compParams.fp = fp_o;
+    compParams.fp_o = fp_o;
     compParams.data = buffer;
     compParams.size = datasize;
     compParams.event = val;
 
-    selectCompMethod(&compParams);
+    selectCompFunc(&compParams);
 
-    printf("符号化に成功しました。 符号化に使用したメソッド番号[%d], 元データのサイズ[%d]Byte\n", compParams.event, compParams.size);
+    printf("符号化に成功しました。 符号化に使用した関数番号[%d], 元データのサイズ[%d]Byte\n", compParams.event, compParams.size);
 
     fclose(fp_o);
     releaseCompParams(&compParams);
@@ -77,7 +94,7 @@ static void printMenu(void){
   printf("[6] PackBits 同じデータ値が連続して並ぶとき、違うデータ値が連続して並ぶときは間にラン長0があるとして圧縮します。\n");
 }
 
-static void selectCompMethod(comp_t *paramsPtr){
+static void selectCompFunc(comp_t *paramsPtr){
   switch(paramsPtr->event){
     case RUNLENGTH_STD:
       compRunLengthStd(paramsPtr);
@@ -102,6 +119,31 @@ static void selectCompMethod(comp_t *paramsPtr){
   }
 }
 
+static void selectDecompFunc(comp_t *paramsPtr){
+  switch(paramsPtr->event){
+    case RUNLENGTH_STD:
+      decompRunLengthStd(paramsPtr);
+      break;
+    case RUNLENGTH_1BYTE_SIGN:
+      decompRunLength1ByteSign(paramsPtr);
+      break;
+    case RUNLENGTH_HEAD1BIT_SIGN:
+      decompRunLengthHead1BitSign(paramsPtr);
+      break;
+    case WYLE_CODING:
+      decompWyleCoding(paramsPtr);
+      break;
+    case PACKBITS_STD:
+      decompPackBitsStd(paramsPtr);
+      break;
+    case PACKBITS_SWITCH:
+      decompPackBitsSwitch(paramsPtr);
+      break;
+    default:
+      break;
+  }
+}
+
 static void releaseCompParams(comp_t *compPtr){
   compPtr->fp_i = NULL; 
   compPtr->fp_o = NULL;
@@ -109,16 +151,3 @@ static void releaseCompParams(comp_t *compPtr){
   compPtr->size = 0;
   compPtr->event = NOT_SELECT_RUNLENGTH;
 }
-
-void *comp_thread(){
-  
-}
-
-void *decomp_thread(){
-  
-}
-
-int main(void){
-  pthread_t pthread;
-}
-
