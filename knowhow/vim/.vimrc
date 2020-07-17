@@ -172,8 +172,6 @@ nnoremap # #Nzt
 "タブページの設定
 "タブページを常に表示
 set showtabline=2
-"タブページの複製
-nnoremap tabclone :tab sp<CR>
 "タブページの移動
 nnoremap . gt
 nnoremap , gT
