@@ -2,7 +2,7 @@
 #include "comp_func.h"
 #include "decomp_func.h"
 
-/* 時ファイルのヘッダ */
+/* 自ファイルのヘッダ */
 #include "main.h"
 
 static void printMenu(void);
