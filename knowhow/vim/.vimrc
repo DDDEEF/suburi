@@ -1,4 +1,22 @@
+"現在の関数を表示
+function! CurrentFunc()
+  return getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", "bnW"))
+endfunction
+
+"現在のカーソルの進数を表示
+function! ChangeBase()
+  let word = expand("<cword>")
+  "let word = 100
+  let dec2hex = "echo \"obase=16; ibase=10;\"" . word . " | bc"
+  let dec2bin = "echo \"obase=2;  ibase=10;\"" . word . " | bc"
+  let hex2dec = "echo \"obase=10; ibase=16;\"" . word . " | bc"
+  let hex2bin = "echo \"obase=2;  ibase=16;\"" . word . " | bc"
+  let str = "10進数を16進数[" . system(dec2hex) . "] 16進数を10進数[" . system(hex2dec) . "] 16進数を2進数[" . system(hex2bin) ."]"
+  return str
+endfunction
+
 "基本設定
+scriptencoding utf-8
 "viとの互換性をとらないようにする
 set nocompatible
 "vimの内部文字コードをutf-8にエンコードする
@@ -37,26 +55,28 @@ set cursorcolumn
 set virtualedit=onemore
 "括弧入力時の対応する括弧を表示する
 set showmatch
+
+"file encoding
+set statusline=【ENC=%{&fileencoding}】
+"現在列数
+set statusline+=【COL=%c】
+"現在行数/全行数
+set statusline+=【ROW=%l/%L】
+"関数の表示
+set statusline+=【%{CurrentFunc()}】
+"これ以降は右寄せ表示
+set statusline+=%=
 "ファイル名表示
-set statusline=%F
+set statusline+=【%F】
 "変更チェック表示
 set statusline+=%m
 "読み込み専用かどうか表示
 set statusline+=%r
-"ヘルプページなら[HELP]と表示
-set statusline+=%h
-"プレビューウインドウなら[Prevew]と表示
-set statusline+=%w
-"これ以降は右寄せ表示
-set statusline+=%=
-"file encoding
-set statusline+=[ENC=%{&fileencoding}]
-"現在行数/全行数
-set statusline+=[LOW=%l/%L]
+
 "ステータスラインを常に表示(0:表示しない、1:2つ以上ウィンドウがある時だけ表示)
 set laststatus=2
 "メッセージ表示欄を2行確保
-set cmdheight=2
+"set cmdheight=2
 "コマンドラインの補完をする
 set wildmode=list:longest
 "起動時に前回の検索文字をハイライトしない
@@ -92,7 +112,7 @@ set virtualedit=block
 "カーソルの上または下に表示する最小限の行数を設定する
 set scrolloff=5
 "左下に表示される挿入などの文字を表示しない
-set noshowmode
+"set noshowmode
 "コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
 autocmd FileType * set formatoptions-=ro
 ".viminfoの位置を固定 削除はrmコマンド
@@ -152,6 +172,8 @@ nnoremap # #Nzt
 "タブページの設定
 "タブページを常に表示
 set showtabline=2
+"タブページの複製
+nnoremap tabclone :tab sp<CR>
 "タブページの移動
 nnoremap . gt
 nnoremap , gT
@@ -197,7 +219,6 @@ autocmd BufEnter * 2match Todo /\<HOGE\|FUGA\>/
 "シンタックスハイライトの有効化する
 syntax enable
 "カラーの設定
-set background=light
 hi clear
 set t_Co=256
 
@@ -241,14 +262,11 @@ hi Type term=NONE cterm=NONE ctermfg=127
 hi StorageClass term=NONE cterm=NONE ctermfg=127
 hi Structure term=NONE cterm=NONE ctermfg=127
 hi Typedef term=NONE cterm=NONE ctermfg=127
-
-"行
+"行列
 hi LineNr term=NONE cterm=NONE ctermfg=27
 hi CursorLineNr term=NONE cterm=NONE ctermfg=27
-
-"タブバー
+"タブ
 hi TabLineFill ctermfg=black
 hi TabLine ctermfg=white ctermbg=black
 hi TabLineSel term=NONE cterm=NONE ctermfg=black ctermbg=white
 
-hi clear SignColumn
