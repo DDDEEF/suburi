@@ -24,3 +24,9 @@ $ vim -S Session.vim
 ```
 <参考URL><br>
 https://qiita.com/Rasukarusan/items/969e6ad5956e82b9c343
+
+### ◾️クリッポボードのテキストをvimエディタ上に貼り付ける方法
+```
+:set paste
+```
+このあと、貼り付けたいところに貼り付けると上手くいく
