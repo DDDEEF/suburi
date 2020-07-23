@@ -257,7 +257,7 @@ hi Function             cterm=NONE ctermfg=250 ctermbg=NONE
 hi Statement            cterm=NONE ctermfg=127 ctermbg=NONE
 "条件分岐 if then else endif switch
 hi Conditional          cterm=NONE ctermfg=127 ctermbg=NONE
-"繰り返し　for do while
+"繰り返し for do while
 hi Repeat               cterm=NONE ctermfg=127 ctermbg=NONE
 "ラベル case default
 hi Label                cterm=NONE ctermfg=127 ctermbg=NONE
