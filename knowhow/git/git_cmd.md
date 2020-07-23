@@ -22,4 +22,4 @@
 | ブランチの変更をリモートリポジトリ(master)に反映させる PR <br> $ git push origin newbranch |
 | git管理下のフォルダ・ファイルを削除 <br> $ git rm [削除したいファイル] <br> $ git rm -r [削除したいディレクトリ] <br> その後は、commitしてpush|
 | commitログをファイルに出力する <br> $ git log -p git_cmd.md > log.txt |
-| 違うリモートブランチにpushしてしまったら <br> $git revert HEAD <br> $ git push origin master|
+| 違うリモートブランチにpushしてしまったら <br> $ git revert HEAD <br> $ git push origin master|
