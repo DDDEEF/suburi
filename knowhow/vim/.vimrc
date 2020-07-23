@@ -1,25 +1,7 @@
-"現在の関数を表示
-function! CurrentFunc()
-  return getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", "bnW"))
-endfunction
-
-"現在のカーソルの進数を表示
-function! ChangeBase()
-  let word = expand("<cword>")
-  "let word = 100
-  let dec2hex = "echo \"obase=16; ibase=10;\"" . word . " | bc"
-  let dec2bin = "echo \"obase=2;  ibase=10;\"" . word . " | bc"
-  let hex2dec = "echo \"obase=10; ibase=16;\"" . word . " | bc"
-  let hex2bin = "echo \"obase=2;  ibase=16;\"" . word . " | bc"
-  let str = "10進数を16進数[" . system(dec2hex) . "] 16進数を10進数[" . system(hex2dec) . "] 16進数を2進数[" . system(hex2bin) ."]"
-  return str
-endfunction
-
-"基本設定
-scriptencoding utf-8
 "viとの互換性をとらないようにする
 set nocompatible
 "vimの内部文字コードをutf-8にエンコードする
+scriptencoding utf-8
 set encoding=utf-8
 "書き込み時の文字コードを指定する
 set fileencoding=utf-8
@@ -44,7 +26,7 @@ set viminfo=
 "タイトルを表示する
 set title
 "入力中のコマンドをステータスに表示する
-"set showcmd
+set showcmd
 "行番号を表示する
 set number
 "現在の行を強調表示する
@@ -55,30 +37,26 @@ set cursorcolumn
 set virtualedit=onemore
 "括弧入力時の対応する括弧を表示する
 set showmatch
-
 "file encoding
-set statusline=【ENC=%{&fileencoding}】
-"現在列数
-set statusline+=【COL=%c】
-"現在行数/全行数
-set statusline+=【ROW=%l/%L】
-"関数の表示
-set statusline+=【%{CurrentFunc()}】
-"これ以降は右寄せ表示
-set statusline+=%=
-"ファイル名表示
-set statusline+=【%F】
+set statusline=%{&fileencoding}
 "変更チェック表示
 set statusline+=%m
 "読み込み専用かどうか表示
 set statusline+=%r
-
+"現在列数
+set statusline+=[%c]
+"現在行数/全行数
+set statusline+=[%l/%L]
+"これ以降は右寄せ表示
+set statusline+=%=
+"ファイル名表示
+set statusline+=%F
 "ステータスラインを常に表示(0:表示しない、1:2つ以上ウィンドウがある時だけ表示)
 set laststatus=2
 "メッセージ表示欄を2行確保
 "set cmdheight=2
 "コマンドラインの補完をする
-set wildmode=list:longest
+set wildmode=longest,full
 "起動時に前回の検索文字をハイライトしない
 "set viminfo+=h
 "インデントはスマートインデントにする
@@ -93,6 +71,7 @@ set shiftwidth=2
 set autoindent
 "挿入モードでback spaceが効かない対策
 set backspace=indent,eol,start
+set backspace=2
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
 "検索がループしないようにする
@@ -112,7 +91,7 @@ set virtualedit=block
 "カーソルの上または下に表示する最小限の行数を設定する
 set scrolloff=5
 "左下に表示される挿入などの文字を表示しない
-"set noshowmode
+set noshowmode
 "コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
 autocmd FileType * set formatoptions-=ro
 ".viminfoの位置を固定 削除はrmコマンド
@@ -208,63 +187,134 @@ augroup QfAutoCommands
   autocmd WinEnter * if (winnr('$') == 1) && (getbufvar(winbufnr(0), '&buftype')) == 'quickfix' | quit | endif
 augroup END
 
-"コンパイルスイッチ用の設定
-"マクロが定義されていて、かつ値が0orFALSEのもの
-autocmd BufEnter * match Error /\<FIZZ\|BUZZ\>/
-"マクロが定義されていて、TRUEになるもの
-autocmd BufEnter * 2match Todo /\<HOGE\|FUGA\>/
+"現在の関数を表示
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+map f :call ShowFuncName() <CR>
 
 "シンタックスハイライトの有効化する
 syntax enable
 "カラーの設定
 hi clear
 set t_Co=256
-
-"ステータスラインの色
-hi StatusLine term=NONE cterm=NONE ctermfg=black ctermbg=white
-
-"通常文字
-hi Normal term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE
-
+"cterm(CUIのbold/underlineなどの設定)
+"ctermfg(CUIの文字色設定)
+"ctermbg(CUIの文字背景食設定)
+"文字・背景色
+hi Normal                          ctermfg=250 ctermbg=235
+"ステータスライン
+hi StatusLine           cterm=NONE ctermfg=250 ctermbg=235
+"カーソルのある行
+hi CursorLine           cterm=NONE ctermfg=NONE ctermbg=236
+"行番号
+hi LineNr               cterm=NONE ctermfg=240 ctermbg=235
+"カーソルのある行番号
+hi CursorLineNr         cterm=NONE ctermfg=250 ctermbg=236
+"カーソルのある列
+hi cursorcolumn         cterm=NONE ctermfg=NONE  ctermbg=236
+"アクティブなタブ
+hi TabLineSel           cterm=NONE ctermfg=250 ctermbg=235
+"非アクティブなタブ
+hi TabLine              cterm=NONE ctermfg=247 ctermbg=236
+"タブがないところ
+hi TabLineFill          cterm=NONE ctermfg=000 ctermbg=NONE
+"ビジュアルモード選択
+hi Visual               cterm=NONE ctermfg=NONE ctermbg=012
+"ビジュアルモード非選択
+hi VisualNOS            cterm=NONE ctermfg=250  ctermbg=235
+"カーソル下の括弧に対応する括弧
+hi MatchParen           cterm=NONE ctermfg=NONE ctermbg=012
+"ディテクトリ名
+hi Directory            cterm=NONE ctermfg=250 ctermbg=NONE
+"wildmodeの補完での現在の候補
+hi WildMenu             cterm=NONE ctermfg=250 ctermbg=235
+"コマンドライン上のエラーメッセージ
+hi ErrorMsg             cterm=NONE ctermfg=160 ctermbg=235
+"yes/no
+hi Question             cterm=NONE ctermfg=160 ctermbg=235
+" –INSERT–メッセージ
+hi ModeMsg              cterm=NONE ctermfg=160 ctermbg=235
+" –More–メッセージ
+hi MoreMsg              cterm=NONE ctermfg=160 ctermbg=235
+"警告
+hi WarningMsg           cterm=NONE ctermfg=160 ctermbg=235
+"最後に検索した単語のハイライト
+hi Search               cterm=NONE ctermfg=250 ctermbg=012
+"インクリメントサーチ
+hi IncSearch            cterm=NONE ctermfg=250 ctermbg=012
+"コメントアウト
+hi Comment              cterm=NONE ctermfg=240 ctermbg=NONE
+"定数
+hi Constant             cterm=NONE ctermfg=027 ctermbg=NONE
+" ""で囲まれる文字列定数
+hi String               cterm=NONE ctermfg=027 ctermbg=NONE
+" ''で囲まれる1文字の定数
+hi Character            cterm=NONE ctermfg=026 ctermbg=NONE
+"数字定数
+hi Number               cterm=NONE ctermfg=026 ctermbg=NONE
+"ブール定数
+hi Boolean              cterm=NONE ctermfg=026 ctermbg=NONE
+"浮動小数点定数
+hi Float                cterm=NONE ctermfg=006 ctermbg=NONE
+"変数名
+hi Identifier           cterm=NONE ctermfg=250 ctermbg=NONE
+"関数名・クラス名
+hi Function             cterm=NONE ctermfg=250 ctermbg=NONE
+"命令文
+hi Statement            cterm=NONE ctermfg=127 ctermbg=NONE
+"条件分岐 if then else endif switch
+hi Conditional          cterm=NONE ctermfg=127 ctermbg=NONE
+"繰り返し　for do while
+hi Repeat               cterm=NONE ctermfg=127 ctermbg=NONE
+"ラベル case default
+hi Label                cterm=NONE ctermfg=127 ctermbg=NONE
+"演算子 sizeof + *
+hi Operator             cterm=NONE ctermfg=127 ctermbg=NONE
+"その他キーワード
+hi Keyword              cterm=NONE ctermfg=127 ctermbg=NONE
+"例外処理 try catch throw
+hi Exception            cterm=NONE ctermfg=127 ctermbg=NONE
+"一般的なプリプロセッサ
+hi PreProc              cterm=NONE ctermfg=127 ctermbg=NONE
+"#includeプリプロセッサー
+hi Include              cterm=NONE ctermfg=127 ctermbg=NONE
+"#defineプリプロセッサー
+hi Define               cterm=NONE ctermfg=127 ctermbg=NONE
+"#defineと同じ
+hi Macro                cterm=NONE ctermfg=127 ctermbg=NONE
+"プリプロセッサー #if #else #endif
+hi PreCondit            cterm=NONE ctermfg=127 ctermbg=NONE
+"int long char その他
+hi Type                 cterm=NONE ctermfg=026 ctermbg=NONE
+"static register volatile その他
+hi StorageClass         cterm=NONE ctermfg=031 ctermbg=NONE
+"struct union enum その他
+hi Structure            cterm=NONE ctermfg=002 ctermbg=NONE
+"typedef宣言
+hi Typedef              cterm=NONE ctermfg=002 ctermbg=NONE
 "特殊文字
-hi Special term=bold cterm=bold ctermfg=127
-
-"コメント
-hi Comment term=NONE cterm=NONE ctermfg=27
-
-hi Constant term=bold cterm=bold ctermfg=red
-hi String term=NONE cterm=NONE ctermfg=red
-hi Character term=NONE cterm=NONE ctermfg=red
-hi Number term=NONE cterm=NONE ctermfg=red
-hi Boolean term=NONE cterm=bold ctermfg=red
-hi Float term=NONE cterm=NONE ctermfg=red
-
-hi Identifier term=bold cterm=bold ctermfg=17
-hi Function term=bold cterm=bold ctermfg=17
-
-hi Statement term=bold cterm=bold ctermfg=89
-hi Conditional term=bold cterm=bold ctermfg=89
-hi Repeat term=bold cterm=bold ctermfg=89
-hi Label term=bold cterm=bold ctermfg=89
-hi Operator term=bold cterm=bold ctermfg=89
-hi Keyword term=bold cterm=bold ctermfg=89
-hi Exception term=bold cterm=bold ctermfg=89
-
-hi PreProc term=NONE cterm=NONE ctermfg=127
-hi Include term=NONE cterm=NONE ctermfg=127
-hi Define term=NONE cterm=NONE ctermfg=127
-hi Macro term=NONE cterm=NONE ctermfg=127
-hi PreCondit term=NONE cterm=NONE ctermfg=127
-
-hi Type term=NONE cterm=NONE ctermfg=127
-hi StorageClass term=NONE cterm=NONE ctermfg=127
-hi Structure term=NONE cterm=NONE ctermfg=127
-hi Typedef term=NONE cterm=NONE ctermfg=127
-"行列
-hi LineNr term=NONE cterm=NONE ctermfg=27
-hi CursorLineNr term=NONE cterm=NONE ctermfg=27
-"タブ
-hi TabLineFill ctermfg=black
-hi TabLine ctermfg=white ctermbg=black
-hi TabLineSel term=NONE cterm=NONE ctermfg=black ctermbg=white
-
+hi Special              cterm=NONE ctermfg=250 ctermbg=NONE
+"特殊な文字定数
+hi SpecialChar          cterm=NONE ctermfg=250 ctermbg=NONE
+"Tag
+hi Tag                  cterm=underline ctermfg=NONE ctermbg=NONE
+"注意が必要な文字
+hi Delimiter            cterm=NONE ctermfg=127 ctermbg=NONE
+"コメント内の特筆事項
+hi SpecialComment       cterm=NONE ctermfg=039 ctermbg=NONE
+"デバッグ命令
+hi Debug                cterm=NONE ctermfg=250 ctermbg=NONE
+"Underlined
+hi Underlined           cterm=NONE ctermfg=250 ctermbg=NONE
+"Ignore
+hi Ignore               cterm=NONE ctermfg=250 ctermbg=NONE
+"Error
+hi Error                cterm=NONE ctermfg=250 ctermbg=NONE
+"Todo
+hi Todo                 cterm=NONE ctermfg=250 ctermbg=NONE
