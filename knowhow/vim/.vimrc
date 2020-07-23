@@ -71,7 +71,6 @@ set shiftwidth=2
 set autoindent
 "挿入モードでback spaceが効かない対策
 set backspace=indent,eol,start
-set backspace=2
 "ヤンクした内容を別のウィンドウにペーストできるようにする
 set clipboard=unnamed,autoselect
 "検索がループしないようにする
@@ -91,7 +90,7 @@ set virtualedit=block
 "カーソルの上または下に表示する最小限の行数を設定する
 set scrolloff=5
 "左下に表示される挿入などの文字を表示しない
-set noshowmode
+"set noshowmode
 "コメント改行時に自動でコメントヘッダを挿入しない（ファイルタイプ：全て）
 autocmd FileType * set formatoptions-=ro
 ".viminfoの位置を固定 削除はrmコマンド
@@ -107,16 +106,6 @@ nnoremap tt :Texplore <CR>
 "入力補完
 "ノーマルモードへ
 inoremap <C-c> <Esc>
-"インサートモードで右へ
-inoremap <C-l> <Right>
-"インサートモードで左へ
-inoremap <C-h> <Left>
-"インサートモードへo
-inoremap <C-o> <Esc>o
-"インサートモードでa
-inoremap <C-a> <Esc>A
-"インサートモードで;
-inoremap <C-;> <Esc>A;
 
 "大括弧の入力補完
 inoremap [ []<ESC>i
@@ -172,8 +161,6 @@ nnoremap <C-g> :tab sp<CR> :Gtags -g<space>-l<space>
 nnoremap <C-]> :tab sp<CR> :<C-u>exe('Gtags -g -l '.expand('<cword>'))<CR>zt
 "カーソル位置の関数の定義元へタグジャンプ
 nnoremap <C-j> :tab sp<CR> :GtagsCursor<CR>zt
-"開いているファイルに定義されている関数一覧を表示
-nnoremap <C-h> :Gtags -f %<CR>zt
 "次の検索結果へジャンプする
 nnoremap <C-n> :cn<CR>zt
 "前の検索結果にジャンプする
@@ -281,15 +268,15 @@ hi Keyword              cterm=NONE ctermfg=127 ctermbg=NONE
 "例外処理 try catch throw
 hi Exception            cterm=NONE ctermfg=127 ctermbg=NONE
 "一般的なプリプロセッサ
-hi PreProc              cterm=NONE ctermfg=127 ctermbg=NONE
+hi PreProc              cterm=NONE ctermfg=120 ctermbg=NONE
 "#includeプリプロセッサー
-hi Include              cterm=NONE ctermfg=127 ctermbg=NONE
+hi Include              cterm=NONE ctermfg=120 ctermbg=NONE
 "#defineプリプロセッサー
-hi Define               cterm=NONE ctermfg=127 ctermbg=NONE
+hi Define               cterm=NONE ctermfg=120 ctermbg=NONE
 "#defineと同じ
-hi Macro                cterm=NONE ctermfg=127 ctermbg=NONE
+hi Macro                cterm=NONE ctermfg=120 ctermbg=NONE
 "プリプロセッサー #if #else #endif
-hi PreCondit            cterm=NONE ctermfg=127 ctermbg=NONE
+hi PreCondit            cterm=NONE ctermfg=120 ctermbg=NONE
 "int long char その他
 hi Type                 cterm=NONE ctermfg=026 ctermbg=NONE
 "static register volatile その他
