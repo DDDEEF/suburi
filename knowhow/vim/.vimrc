@@ -254,13 +254,13 @@ hi Identifier           cterm=NONE ctermfg=250 ctermbg=NONE
 "関数名・クラス名
 hi Function             cterm=NONE ctermfg=250 ctermbg=NONE
 "命令文
-hi Statement            cterm=NONE ctermfg=127 ctermbg=NONE
+hi Statement            cterm=bold ctermfg=127 ctermbg=NONE
 "条件分岐 if then else endif switch
-hi Conditional          cterm=NONE ctermfg=127 ctermbg=NONE
-"繰り返し for do while
-hi Repeat               cterm=NONE ctermfg=127 ctermbg=NONE
+hi Conditional          cterm=bold ctermfg=127 ctermbg=NONE
+"繰り返し　for do while
+hi Repeat               cterm=bold ctermfg=127 ctermbg=NONE
 "ラベル case default
-hi Label                cterm=NONE ctermfg=127 ctermbg=NONE
+hi Label                cterm=bold ctermfg=127 ctermbg=NONE
 "演算子 sizeof + *
 hi Operator             cterm=NONE ctermfg=127 ctermbg=NONE
 "その他キーワード
@@ -292,7 +292,7 @@ hi SpecialChar          cterm=NONE ctermfg=250 ctermbg=NONE
 "Tag
 hi Tag                  cterm=underline ctermfg=NONE ctermbg=NONE
 "注意が必要な文字
-hi Delimiter            cterm=NONE ctermfg=127 ctermbg=NONE
+hi Delimiter            cterm=NONE ctermfg=214 ctermbg=NONE
 "コメント内の特筆事項
 hi SpecialComment       cterm=NONE ctermfg=039 ctermbg=NONE
 "デバッグ命令
