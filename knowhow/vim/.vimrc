@@ -276,15 +276,15 @@ hi Define               cterm=NONE ctermfg=013 ctermbg=NONE
 "#defineと同じ
 hi Macro                cterm=NONE ctermfg=013 ctermbg=NONE
 "プリプロセッサー #if #else #endif
-hi PreCondit            cterm=NONE ctermfg=120 ctermbg=NONE
+hi PreCondit            cterm=NONE ctermfg=010 ctermbg=NONE
 "int long char その他
 hi Type                 cterm=NONE ctermfg=026 ctermbg=NONE
 "static register volatile その他
 hi StorageClass         cterm=NONE ctermfg=031 ctermbg=NONE
 "struct union enum その他
-hi Structure            cterm=NONE ctermfg=010 ctermbg=NONE
+hi Structure            cterm=NONE ctermfg=026 ctermbg=NONE
 "typedef宣言
-hi Typedef              cterm=NONE ctermfg=010 ctermbg=NONE
+hi Typedef              cterm=NONE ctermfg=026 ctermbg=NONE
 "特殊文字
 hi Special              cterm=NONE ctermfg=NONE ctermbg=NONE
 "特殊な文字定数
