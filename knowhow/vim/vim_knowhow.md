@@ -30,3 +30,9 @@ https://qiita.com/Rasukarusan/items/969e6ad5956e82b9c343
 :set paste
 ```
 このあと、貼り付けたいところに貼り付けると上手くいく
+
+### ◾️QuickFixを画面上に持ってきて、表示行数を増やす方法
+```
+Ctrl-w r //上と下のレイアウトを入れ替える
+:cope [15] //10行から15行へ増やす
+```
