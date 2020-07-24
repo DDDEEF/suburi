@@ -458,11 +458,14 @@ hi def link cCppOut2    cCppOut  " Old syntax group for #if of #if 0
 hi def link cCppOut   Comment
 
 "add
-syn match cKakko /[(){}[\],]/
-hi link cKakko Delimiter
+syn match Kakko /[(){}[\],]/
+hi link Kakko Delimiter
 
-syn match cOpe /\(0x\|->\|[.|&=<>!?:+-]\|[^\/][\*]\|[^*^/][/][^*^/]\)/
-hi link cOpe SpecialComment
+syn match Enzan /\(0x\|->\|[.|&=<>!?:+-]\|[^\/][\*]\|[^*^/][/][^*^/]\)/
+hi link Enzan SpecialComment
+
+syn match Singi /\(TRUE\|FALSE\|true\|false\|NULL\|SET\|RESET\)/
+hi link Singi Number
 
 let b:current_syntax = "c"
 

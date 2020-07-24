@@ -204,7 +204,7 @@ hi LineNr               cterm=NONE ctermfg=240 ctermbg=235
 "カーソルのある行番号
 hi CursorLineNr         cterm=NONE ctermfg=250 ctermbg=236
 "カーソルのある列
-hi cursorcolumn         cterm=NONE ctermfg=NONE  ctermbg=236
+hi cursorcolumn         cterm=NONE ctermfg=NONE ctermbg=236
 "アクティブなタブ
 hi TabLineSel           cterm=NONE ctermfg=250 ctermbg=235
 "非アクティブなタブ
@@ -214,11 +214,11 @@ hi TabLineFill          cterm=NONE ctermfg=000 ctermbg=NONE
 "ビジュアルモード選択
 hi Visual               cterm=NONE ctermfg=NONE ctermbg=012
 "ビジュアルモード非選択
-hi VisualNOS            cterm=NONE ctermfg=250  ctermbg=235
+hi VisualNOS            cterm=NONE ctermfg=250 ctermbg=235
 "カーソル下の括弧に対応する括弧
 hi MatchParen           cterm=NONE ctermfg=NONE ctermbg=012
 "ディテクトリ名
-hi Directory            cterm=NONE ctermfg=250 ctermbg=NONE
+hi Directory            cterm=NONE ctermfg=NONE ctermbg=NONE
 "wildmodeの補完での現在の候補
 hi WildMenu             cterm=NONE ctermfg=250 ctermbg=235
 "コマンドライン上のエラーメッセージ
@@ -232,15 +232,15 @@ hi MoreMsg              cterm=NONE ctermfg=160 ctermbg=235
 "警告
 hi WarningMsg           cterm=NONE ctermfg=160 ctermbg=235
 "最後に検索した単語のハイライト
-hi Search               cterm=NONE ctermfg=250 ctermbg=012
+hi Search               cterm=NONE ctermfg=NONE ctermbg=012
 "インクリメントサーチ
-hi IncSearch            cterm=NONE ctermfg=250 ctermbg=012
+hi IncSearch            cterm=NONE ctermfg=NONE ctermbg=012
 "コメントアウト
 hi Comment              cterm=NONE ctermfg=240 ctermbg=NONE
 "定数
-hi Constant             cterm=NONE ctermfg=027 ctermbg=NONE
+hi Constant             cterm=NONE ctermfg=026 ctermbg=NONE
 " ""で囲まれる文字列定数
-hi String               cterm=NONE ctermfg=027 ctermbg=NONE
+hi String               cterm=NONE ctermfg=245 ctermbg=NONE
 " ''で囲まれる1文字の定数
 hi Character            cterm=NONE ctermfg=026 ctermbg=NONE
 "数字定数
@@ -250,31 +250,31 @@ hi Boolean              cterm=NONE ctermfg=026 ctermbg=NONE
 "浮動小数点定数
 hi Float                cterm=NONE ctermfg=006 ctermbg=NONE
 "変数名
-hi Identifier           cterm=NONE ctermfg=250 ctermbg=NONE
+hi Identifier           cterm=NONE ctermfg=NONE ctermbg=NONE
 "関数名・クラス名
-hi Function             cterm=NONE ctermfg=250 ctermbg=NONE
+hi Function             cterm=NONE ctermfg=NONE ctermbg=NONE
 "命令文
-hi Statement            cterm=bold ctermfg=127 ctermbg=NONE
+hi Statement            cterm=NONE ctermfg=013 ctermbg=NONE
 "条件分岐 if then else endif switch
-hi Conditional          cterm=bold ctermfg=127 ctermbg=NONE
-"繰り返し　for do while
-hi Repeat               cterm=bold ctermfg=127 ctermbg=NONE
+hi Conditional          cterm=NONE ctermfg=013 ctermbg=NONE
+"繰り返し for do while
+hi Repeat               cterm=NONE ctermfg=013 ctermbg=NONE
 "ラベル case default
-hi Label                cterm=bold ctermfg=127 ctermbg=NONE
+hi Label                cterm=NONE ctermfg=013 ctermbg=NONE
 "演算子 sizeof + *
-hi Operator             cterm=NONE ctermfg=127 ctermbg=NONE
+hi Operator             cterm=NONE ctermfg=NONE ctermbg=NONE
 "その他キーワード
-hi Keyword              cterm=NONE ctermfg=127 ctermbg=NONE
+hi Keyword              cterm=NONE ctermfg=013 ctermbg=NONE
 "例外処理 try catch throw
-hi Exception            cterm=NONE ctermfg=127 ctermbg=NONE
+hi Exception            cterm=NONE ctermfg=013 ctermbg=NONE
 "一般的なプリプロセッサ
-hi PreProc              cterm=NONE ctermfg=120 ctermbg=NONE
+hi PreProc              cterm=NONE ctermfg=NONE ctermbg=NONE
 "#includeプリプロセッサー
-hi Include              cterm=NONE ctermfg=120 ctermbg=NONE
+hi Include              cterm=NONE ctermfg=013 ctermbg=NONE
 "#defineプリプロセッサー
-hi Define               cterm=NONE ctermfg=120 ctermbg=NONE
+hi Define               cterm=NONE ctermfg=013 ctermbg=NONE
 "#defineと同じ
-hi Macro                cterm=NONE ctermfg=120 ctermbg=NONE
+hi Macro                cterm=NONE ctermfg=013 ctermbg=NONE
 "プリプロセッサー #if #else #endif
 hi PreCondit            cterm=NONE ctermfg=120 ctermbg=NONE
 "int long char その他
@@ -282,26 +282,26 @@ hi Type                 cterm=NONE ctermfg=026 ctermbg=NONE
 "static register volatile その他
 hi StorageClass         cterm=NONE ctermfg=031 ctermbg=NONE
 "struct union enum その他
-hi Structure            cterm=NONE ctermfg=002 ctermbg=NONE
+hi Structure            cterm=NONE ctermfg=010 ctermbg=NONE
 "typedef宣言
-hi Typedef              cterm=NONE ctermfg=002 ctermbg=NONE
+hi Typedef              cterm=NONE ctermfg=010 ctermbg=NONE
 "特殊文字
-hi Special              cterm=NONE ctermfg=250 ctermbg=NONE
+hi Special              cterm=NONE ctermfg=NONE ctermbg=NONE
 "特殊な文字定数
-hi SpecialChar          cterm=NONE ctermfg=250 ctermbg=NONE
+hi SpecialChar          cterm=NONE ctermfg=NONE ctermbg=NONE
 "Tag
-hi Tag                  cterm=underline ctermfg=NONE ctermbg=NONE
+hi Tag                  cterm=NONE ctermfg=NONE ctermbg=NONE
 "注意が必要な文字
 hi Delimiter            cterm=NONE ctermfg=214 ctermbg=NONE
 "コメント内の特筆事項
 hi SpecialComment       cterm=NONE ctermfg=039 ctermbg=NONE
 "デバッグ命令
-hi Debug                cterm=NONE ctermfg=250 ctermbg=NONE
+hi Debug                cterm=NONE ctermfg=NONE ctermbg=NONE
 "Underlined
-hi Underlined           cterm=NONE ctermfg=250 ctermbg=NONE
+hi Underlined           cterm=NONE ctermfg=NONE ctermbg=NONE
 "Ignore
-hi Ignore               cterm=NONE ctermfg=250 ctermbg=NONE
+hi Ignore               cterm=NONE ctermfg=NONE ctermbg=NONE
 "Error
-hi Error                cterm=NONE ctermfg=250 ctermbg=NONE
+hi Error                cterm=NONE ctermfg=NONE ctermbg=NONE
 "Todo
-hi Todo                 cterm=NONE ctermfg=250 ctermbg=NONE
+hi Todo                 cterm=NONE ctermfg=NONE ctermbg=NONE
