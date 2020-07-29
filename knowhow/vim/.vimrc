@@ -47,10 +47,10 @@ set statusline+=%r
 set statusline+=[%c]
 "現在行数/全行数
 set statusline+=[%l/%L]
-"これ以降は右寄せ表示
-set statusline+=%=
 "ファイル名表示
-set statusline+=%F
+set statusline+=%#WarningMsg#\"%F\"
+"これ以降は右寄せ表示
+"set statusline+=%=
 "ステータスラインを常に表示(0:表示しない、1:2つ以上ウィンドウがある時だけ表示)
 set laststatus=2
 "メッセージ表示欄を2行確保
@@ -194,11 +194,13 @@ set t_Co=256
 "ctermfg(CUIの文字色設定)
 "ctermbg(CUIの文字背景食設定)
 "文字・背景色
-hi Normal                          ctermfg=250 ctermbg=235
+hi Normal               cterm=NONE ctermfg=250 ctermbg=235
 "ステータスライン
 hi StatusLine           cterm=NONE ctermfg=250 ctermbg=235
+"非アクティブなステータスライン
+hi StatusLineNC         cterm=NONE ctermfg=250 ctermbg=235
 "カーソルのある行
-hi CursorLine           cterm=NONE ctermfg=NONE ctermbg=236
+hi CursorLine           cterm=underline ctermfg=NONE ctermbg=236
 "行番号
 hi LineNr               cterm=NONE ctermfg=240 ctermbg=235
 "カーソルのある行番号
@@ -206,7 +208,7 @@ hi CursorLineNr         cterm=NONE ctermfg=250 ctermbg=236
 "カーソルのある列
 hi cursorcolumn         cterm=NONE ctermfg=NONE ctermbg=236
 "アクティブなタブ
-hi TabLineSel           cterm=NONE ctermfg=250 ctermbg=235
+hi TabLineSel           cterm=bold ctermfg=250 ctermbg=235
 "非アクティブなタブ
 hi TabLine              cterm=NONE ctermfg=247 ctermbg=236
 "タブがないところ
