@@ -461,7 +461,7 @@ hi def link cCppOut   Comment
 syn match Kakko /[(){}[\],]/
 hi link Kakko Delimiter
 
-syn match Enzan /\(0x\|->\|[.|&=<>!?:+-\%\~\^]\|[^\/][\*]\|[^*^/][/][^*^/]\)/
+syn match Enzan /\(0x\|->\|[.|&=<>!?:+-]\|[^\/][\*]\|[^*^/][/][^*^/]\)/
 hi link Enzan SpecialComment
 
 syn match Singi /\(TRUE\|FALSE\|true\|false\|NULL\|SET\|RESET\)/
