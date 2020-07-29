@@ -300,7 +300,7 @@ hi SpecialComment       cterm=NONE ctermfg=039 ctermbg=NONE
 "デバッグ命令
 hi Debug                cterm=NONE ctermfg=NONE ctermbg=NONE
 "Underlined
-hi Underlined           cterm=NONE ctermfg=1 ctermbg=NONE
+hi Underlined           cterm=NONE ctermfg=NONE ctermbg=NONE
 "Ignore
 hi Ignore               cterm=NONE ctermfg=NONE ctermbg=NONE
 "Error
