@@ -49,6 +49,11 @@ bool pop(Stack *p, int *pRet);
   pPrevious                           \
 }
 
+#define newStackWithValidator(buf, pValidator){ \
+  0, sizeof(buf) / sizeof(int), (buf),          \
+  pValidator                                    \
+}
+
 #ifdef __cplusplus
 }
 #endif
