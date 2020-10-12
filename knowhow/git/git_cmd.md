@@ -23,3 +23,6 @@
 | git管理下のフォルダ・ファイルを削除 <br> $ git rm [削除したいファイル] <br> $ git rm -r [削除したいディレクトリ] <br> その後は、commitしてpush|
 | commitログをファイルに出力する <br> $ git log -p git_cmd.md > log.txt |
 | 違うリモートブランチにpushしてしまったら <br> $ git revert HEAD <br> $ git push origin master|
+| ログ <br> $ git log -p -2 |
+| 直前のコミットの取り消し <br> $ git reset --soft HEAD^ |
+| ブランチ指定でgit cloneする <br> $ git clone git@github.com:lef2/suburi.git -b branch_hoge|
