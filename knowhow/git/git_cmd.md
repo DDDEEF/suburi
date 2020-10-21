@@ -26,3 +26,4 @@
 | ログ <br> $ git log -p -2 |
 | 直前のコミットの取り消し <br> $ git reset --soft HEAD^ |
 | ブランチ指定でgit cloneする <br> $ git clone git@github.com:lef2/suburi.git -b branch_hoge|
+| ブランチ作成とブランチ切り替え <br> $ git checkout -b new_branch master |
