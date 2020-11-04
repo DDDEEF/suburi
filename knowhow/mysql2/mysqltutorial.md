@@ -71,6 +71,11 @@ $ mysql> drop table  user;
 $ mysql> select * from user;
 ```
 
+### ◾️データを全削除
+```
+$ mysql> truncate table user;
+```
+
 ### ◾️ホスト名の確認
 ```
 $ mysql> show variables like 'hostname';
