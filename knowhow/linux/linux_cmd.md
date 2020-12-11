@@ -38,3 +38,24 @@ $ mv 元ファイル名 新しいファイル名
 $ xxd -b ファイル名
 $ xxd ファイル名
 ```
+
+## カレントディレクトリ以下からファイルを探す方法
+```
+$ find ./ -name "*.txt" -type f
+```
+
+## ライブラリからシンボル情報全て出力する
+```
+$ nm -a test.a
+```
+
+## 実行ファイルを実行した時に"error while loading shared libraries: test.so: cannot open shared object file: No such file or directory"
+```
+動的リンクするライブラリがなさそう。
+$ ldd test //実行ファイルが動的リンクするライブラリが足りているか確認する ここでnot foundがあるとNG
+
+動的リンクするライブラリが足りないときは、環境変数にライブラリの場所を追加する
+.cshrc
+setenv LD_LIBRARY_PATH /home/temp/lib
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/home/lib
+```
