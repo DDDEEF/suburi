@@ -44,6 +44,11 @@ $ xxd ファイル名
 $ find ./ -name "*.txt" -type f
 ```
 
+## ディレクトリの総使用量
+```
+$ du -s targetdir
+```
+
 ## ライブラリからシンボル情報全て出力する
 ```
 $ nm -a test.a
