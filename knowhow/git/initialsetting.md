@@ -21,6 +21,7 @@ $ cat ~/.ssh/id_rsa.pub
 ## GitHubに公開鍵を登録
 *GitHubにアクセス！！*
 setting->SSH and GPS keys
+これでcloneできるようになる
 
 ## git configにユーザーを登録
 
