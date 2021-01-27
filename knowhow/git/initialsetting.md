@@ -37,6 +37,7 @@ $ git config --global --list
 
 ### ローカルで公開するプロジェクトのルートディレクトリでコマンド打つ
 ```
+$ git remote rm origin
 $ git remote add origin git@github.com:foo/bar.git
 ```
 
