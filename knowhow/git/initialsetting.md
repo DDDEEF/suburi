@@ -18,8 +18,9 @@ Enter same passphrase again:
 $ cat ~/.ssh/id_rsa.pub
 ```
 
-##GitHubに公開鍵を登録
+## GitHubに公開鍵を登録
 *GitHubにアクセス！！*
+setting->SSH and GPS keys
 
 ## git configにユーザーを登録
 
